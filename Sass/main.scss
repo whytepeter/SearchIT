@@ -61,10 +61,11 @@
     }
 
     a {
-      @include effect(0.3rem, 0.2rem);
+      @include effect(0.3rem, 10rem);
       color: $m-white-color;
 
       width: auto;
+
       @media (max-width: 700px) {
         @include effect(0.3rem, 10rem);
       }
