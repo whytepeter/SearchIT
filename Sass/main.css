@@ -371,6 +371,12 @@ ul li {
   margin-left: 0.4rem;
 }
 
+@media (min-width: 700px) {
+  .main__filter--m-sort {
+    display: none;
+  }
+}
+
 .main__filter--sort {
   justify-self: flex-start;
   display: -webkit-box;
