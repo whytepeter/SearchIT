@@ -1,0 +1,57 @@
+@import "./variables";
+@import "./animation";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* /////////////Preset/////////////////// */
+
+body {
+  background-color: $m-white-color;
+  color: #333;
+  font-size: 65.2%;
+  font-family: "Sen", sans-serif;
+  position: relative;
+
+  // @media (min-width: 1264px) {
+  //   display: grid;
+  //   grid-template-columns: 200px 1fr;
+  //   grid-template-rows: 1fr;
+  // }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  line-height: 1.5;
+  margin-bottom: 4px;
+}
+
+a:any-link {
+  display: inline-block;
+  text-decoration: none;
+  padding: 5px 10px;
+}
+
+ul li {
+  list-style: none;
+}
+
+.container {
+  background-color: $white-color;
+  max-width: 100vw;
+  margin: 0 auto;
+  font-size: 1rem;
+  // border: 1px solid peru; //for debugging
+  position: relative;
+  overflow: hidden;
+
+  @media (min-width: 1264px) {
+    margin-left: 285px;
+  }
+}

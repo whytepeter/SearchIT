@@ -1,0 +1,151 @@
+@import "./variables";
+@import "./animation";
+@import "./base";
+
+@mixin flex($center, $direction) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $center;
+  align-items: center;
+}
+
+@mixin effect($width, $radius) {
+  border: $width solid transparent;
+  border-radius: $radius;
+  transition: all 0.2s ease-in;
+
+  &:hover {
+    background-color: $t-white-color;
+  }
+  &:active {
+    background-color: $t-white-color;
+    transform: scale(1.1);
+    border: $width solid $t-white-color;
+  }
+}
+
+.header {
+  width: 100%;
+
+  i {
+    font-size: 1.3rem;
+    color: $m-white-color;
+  }
+
+  &__menu-btn {
+    cursor: pointer;
+    border: 0.3rem solid transparent;
+    padding: 0.3rem 0.5rem;
+    @include effect(0.3rem, 10rem);
+
+    @media (min-width: 1264px) {
+      display: none;
+    }
+  }
+
+  &__nav {
+    width: 100%;
+    background-color: $primary-color;
+    color: $m-white-color;
+    padding: 0.7rem 4rem;
+
+    @media (max-width: 700px) {
+      padding: 0.5rem;
+    }
+
+    @include flex(space-between, row);
+
+    &-left {
+      width: 50%;
+      @include flex(flex-start, row);
+    }
+    &-right {
+      width: 50%;
+      text-align: right;
+      @include flex(flex-end, row);
+    }
+
+    &-logo {
+      @include flex(space-between, row);
+      font-size: 1.7rem;
+      font-weight: 600;
+      margin-left: 2rem;
+      cursor: pointer;
+
+      img {
+        width: 1.7rem;
+        margin-right: 1rem;
+
+        @media (max-width: 700px) {
+          width: 1.4rem;
+        }
+      }
+    }
+
+    a {
+      @include effect(0.3rem, 0.2rem);
+      color: $m-white-color;
+
+      width: auto;
+      @media (max-width: 700px) {
+        @include effect(0.3rem, 10rem);
+      }
+    }
+  }
+
+  span {
+    &.sp-notification {
+      @media (max-width: 700px) {
+        display: none;
+      }
+    }
+  }
+}
+
+////////////// Styles for Navigation Drawer///////////////////
+.navigation-drawer {
+  font-size: 1rem;
+  width: 18rem;
+  height: 100vh;
+  //display: none;
+
+  // border: 1px solid peru; //for debugging
+  background-color: $white-color;
+  box-shadow: 4px 8px 16px 2px rgba(19, 19, 19, 0.281);
+
+  position: fixed;
+  top: -1px;
+  left: -50rem;
+  z-index: 80;
+  transition: all 0.3s ease-in-out;
+
+  @media (min-width: 1264px) {
+    box-shadow: none;
+
+    border: 1px solid rgb(207, 207, 207);
+    display: flex;
+    left: -1px;
+  }
+
+  &.open {
+    left: -1px;
+  }
+}
+
+.overlay {
+  background-color: $overlay-color;
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 70;
+  transition: all 0.3s ease-in-out;
+
+  display: none;
+  animation-duration: 1s;
+
+  &.on {
+    display: block;
+  }
+}

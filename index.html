@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      src="https://kit.fontawesome.com/0e2c38c33e.js"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      href="https://fonts.googleapis.com/css?family=Sen&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css"
+    />
+
+    <link rel="stylesheet" href="./Sass/main.css" />
+    <title>ws-test</title>
+  </head>
+  <body>
+    <div class="container">
+      <header class="header">
+        <nav class="header__nav ">
+          <div class="header__nav-left">
+            <div class="header__menu-btn menu-btn">
+              <i class="fas fa-bars"></i>
+            </div>
+            <div class="header__nav-logo">
+              <img src="./assets/logo.png" alt="WS Logo" class="logo" />
+              <span class="sp-logo">wsearch</span>
+            </div>
+          </div>
+          <div class="header__nav-right">
+            <ul class="nav__list">
+              <li class="nav__list--items">
+                <a href="#" class="nav__list--items-link link">
+                  <i class="fas fa-bell"></i>
+                  <span class="sp-notification">NOTIFICATION</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+        <div class="header__search" hidden>
+          <div class="header__search--sort"></div>
+          <div class="header__search--box">
+            <input
+              id="search"
+              type="text"
+              name="search"
+              placeholder="Search by name"
+            />
+            <i>o</i>
+          </div>
+        </div>
+      </header>
+      <!-- ///////////////Navigation Drawer starts/////////////// -->
+      <div class="navigation-drawer "></div>
+      <!-- ///////////////Navigation Drawer ends/////////////// -->
+      <main class="main">
+        <ul class="main__list">
+          <li class="main__items-list">
+            <div class="main__items-list-bank">Access</div>
+            <div class="main__items-list-acc">
+              <div class="main__items-list-acc-name">Peter Emmanuel Whyte</div>
+              <div class="main__items-list-acc-number">0805915974</div>
+            </div>
+            <span class="main__items-list-delete">x</span>
+          </li>
+        </ul>
+        <button class="main__btn add-btn">+</button>
+      </main>
+    </div>
+    <div class="overlay animate fadeIn "</div>
+  </body>
+  <script src="app.js"></script>
+</html>
