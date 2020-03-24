@@ -2,28 +2,6 @@
 @import "./animation";
 @import "./base";
 
-@mixin flex($center, $direction) {
-  display: flex;
-  flex-direction: $direction;
-  justify-content: $center;
-  align-items: center;
-}
-
-@mixin effect($width, $radius) {
-  border: $width solid transparent;
-  border-radius: $radius;
-  transition: all 0.2s ease-in;
-
-  &:hover {
-    background-color: $t-white-color;
-  }
-  &:active {
-    background-color: $t-white-color;
-    transform: scale(1.1);
-    border: $width solid $t-white-color;
-  }
-}
-
 .header {
   width: 100%;
 
@@ -110,7 +88,7 @@
   //display: none;
 
   // border: 1px solid peru; //for debugging
-  background-color: $white-color;
+  background-color: $m-white-color;
   box-shadow: 4px 8px 16px 2px rgba(19, 19, 19, 0.281);
 
   position: fixed;
@@ -121,7 +99,6 @@
 
   @media (min-width: 1264px) {
     box-shadow: none;
-
     border: 1px solid rgb(207, 207, 207);
     display: flex;
     left: -1px;
@@ -147,5 +124,127 @@
 
   &.on {
     display: block;
+  }
+}
+
+///////////////////////// Main section //////////////////////
+.main {
+  width: 100%;
+  height: 100vh;
+  padding: 1rem;
+
+  @include flex(flex-start, column);
+
+  @media (max-width: 700px) {
+    padding: 0.5rem;
+  }
+
+  //////////////////// Main . filter styles ///////////////////
+  &__filter {
+    // border: 1px solid peru; // for debugging
+    @include flex(space-around, row);
+    width: 90%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    color: $text-color;
+    font-size: 1rem;
+
+    @media (max-width: 700px) {
+      @include flex(flex-start, column);
+    }
+
+    &--m-sort {
+      @include flex(flex-start, row);
+      width: 100%;
+      margin-bottom: 0.5rem;
+      position: relative;
+      cursor: pointer;
+      border: 1px solid peru;
+
+      ul {
+        list-style: none;
+        margin-left: 0.4rem;
+      }
+    }
+
+    &--sort {
+      justify-self: flex-start;
+      @include flex(center, row);
+
+      cursor: pointer;
+      transition: all 0.3s ease;
+
+      .sort {
+        border-radius: 5rem;
+        padding: 0.5rem 0.7rem;
+        transition: all 0.3s ease-in-out;
+        border: 2px solid transparent;
+
+        &:hover {
+          background-color: $white-color;
+        }
+        &:active {
+          border-color: #ddd;
+        }
+      }
+
+      &:hover,
+      &:active {
+        color: $text-hover-color;
+      }
+      span {
+        margin-left: 3px;
+      }
+
+      &-name {
+        margin-left: 1rem;
+      }
+
+      @media (max-width: 700px) {
+        display: none;
+      }
+    }
+
+    &--search {
+      @include flex(space-between, row);
+      background-color: $white-color;
+      width: 20rem;
+      height: 2.5rem;
+      border: 1px solid #ddd;
+      border-radius: 5rem;
+
+      @media (max-width: 700px) {
+        width: 18rem;
+      }
+
+      .search-field {
+        font-size: 1rem;
+        font-weight: 550;
+        width: 100%;
+        height: 100%;
+        background-color: transparent;
+        border: none;
+        outline: none;
+        padding-left: 1rem;
+        color: $text-color;
+      }
+
+      .search-icon {
+        @include flex(center, row);
+        width: 50px;
+        height: 100%;
+        padding: 0.5rem;
+        border-radius: 5rem;
+        transition: all 0.3s ease-in-out;
+
+        &:hover {
+          background-color: $effect-white-color;
+        }
+        &:active {
+          background-color: $btn-dark-hover;
+          color: $white-color;
+        }
+      }
+    }
   }
 }

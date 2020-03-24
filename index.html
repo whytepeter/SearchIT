@@ -43,31 +43,61 @@
             </ul>
           </div>
         </nav>
-        <div class="header__search" hidden>
-          <div class="header__search--sort"></div>
-          <div class="header__search--box">
-            <input
-              id="search"
-              type="text"
-              name="search"
-              placeholder="Search by name"
-            />
-            <i>o</i>
-          </div>
-        </div>
+       
       </header>
       <!-- ///////////////Navigation Drawer starts/////////////// -->
       <div class="navigation-drawer "></div>
       <!-- ///////////////Navigation Drawer ends/////////////// -->
       <main class="main">
-        <ul class="main__list">
+
+        <!-- ////////////////// filter section /////////////// -->
+
+        <div class="main__filter">
+
+          <div class="main__filter--m-sort">
+            <div class="m-sort">
+              <i class="fas fa-sort-amount-down-alt"></i>
+              <span>Sort by</span>
+            </div>
+          <ul>
+            <li>bank</li>
+            <li>account name</li>
+          </ul>
+          </div>
+
+          <div class="main__filter--sort filter">
+            <div class=" main__filter--sort-bank sort">
+                <i class="fas fa-university"></i>
+              <span class="sp-bank">sort by bank</span>
+            </div>
+            <div class="  main__filter--sort-name sort">
+              <i class="fas fa-user"></i>
+              <span class="sp-name">sort by accout name</span>
+            </div>
+          </div>
+          <div class="main__filter--search filter">
+            <input
+              id="search"
+              type="text"
+              name="search"
+              placeholder="Search by name"
+              class="search-field"
+            />
+          <div class="search-icon">
+            <i class="fas fa-search"></i>
+          </div>
+          </div>
+        </div>
+
+        <!-- ////////////////// main account list section /////////////// -->
+        <ul class="main__list" hidden>
           <li class="main__items-list">
             <div class="main__items-list-bank">Access</div>
             <div class="main__items-list-acc">
               <div class="main__items-list-acc-name">Peter Emmanuel Whyte</div>
               <div class="main__items-list-acc-number">0805915974</div>
             </div>
-            <span class="main__items-list-delete">x</span>
+              <span class="main__items-list-delete">x</span>
           </li>
         </ul>
         <button class="main__btn add-btn">+</button>
