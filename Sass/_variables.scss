@@ -6,12 +6,20 @@ $text-color: #656565;
 $text-hover-color: #525252;
 $link-color: #1fe078;
 $btn-green-active: #29d48d;
-$btn-dark-hover: rgb(161, 161, 161);
+$btn-dark-hover: rgb(170, 170, 170);
 
 $m-white-color: #ffff;
+$grey-hover: rgb(238, 238, 238);
+$dark-hover: rgb(221, 221, 221);
 $effect-white-color: rgba(250, 250, 250, 0.137);
 $overlay-color: rgba(0, 0, 0, 0.329);
 
+///////////// index ////////////////
+$index-9: 90;
+$index-8: 80;
+$index-7: 70;
+$index-6: 60;
+$index-5: 50;
 ///////////////// Mixins //////////////
 @mixin flex($center, $direction) {
   display: flex;

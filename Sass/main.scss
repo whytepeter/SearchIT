@@ -26,6 +26,8 @@
     background-color: $primary-color;
     color: $m-white-color;
     padding: 0.7rem 4rem;
+    position: fixed;
+    z-index: $index-7;
 
     @media (max-width: 700px) {
       padding: 0.5rem;
@@ -90,12 +92,12 @@
 
   // border: 1px solid peru; //for debugging
   background-color: $m-white-color;
-  box-shadow: 4px 8px 16px 2px rgba(19, 19, 19, 0.281);
+  box-shadow: 4px 8px 12px 2px rgba(19, 19, 19, 0.219);
 
   position: fixed;
   top: -1px;
   left: -50rem;
-  z-index: 80;
+  z-index: $index-8;
   transition: all 0.3s ease-in-out;
 
   @media (min-width: 1264px) {
@@ -117,7 +119,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 70;
+  z-index: $index-7;
   transition: all 0.3s ease-in-out;
 
   display: none;
@@ -133,11 +135,11 @@
   width: 100%;
   height: 100vh;
   padding: 1rem;
-
+  margin-top: 4rem;
   @include flex(flex-start, column);
 
   @media (max-width: 700px) {
-    padding: 0.5rem;
+    padding: 0;
   }
 
   //////////////////// Main . filter styles ///////////////////
@@ -145,26 +147,84 @@
     // border: 1px solid peru; // for debugging
     @include flex(space-around, row);
     width: 90%;
-    padding: 0.5rem;
-    margin-bottom: 1rem;
-    color: $text-color;
     font-size: 1rem;
+    padding: 1rem 0.5rem;
+    padding-top: 2rem;
+    margin-bottom: 1rem;
+
+    background-color: $m-white-color;
+    border-bottom: 1px solid $dark-hover;
+    color: $text-color;
+    z-index: $index-5;
+
+    position: fixed;
+    top: 3.5rem;
 
     @media (max-width: 700px) {
       @include flex(flex-start, column);
+      padding: 0.5rem 0.5rem 0.5rem 1rem;
+      width: 100%;
     }
 
     &--m-sort {
       @include flex(flex-start, row);
+      background-color: $m-white-color;
       width: 100%;
-      margin-bottom: 0.5rem;
+
+      padding: 0.3rem 0;
       position: relative;
-      cursor: pointer;
-      border: 1px solid peru;
+      // border: 1px solid peru;
+      padding: 1rem;
+
+      .active {
+        margin-left: 0.7rem;
+        padding: 0.2rem 0.5rem;
+        font-weight: bold;
+        background-color: #ddd;
+        border-radius: 7px;
+      }
 
       ul {
+        @include flex(flex-start, column);
+
+        align-items: flex-start;
+        background-color: $m-white-color;
         list-style: none;
-        margin-left: 0.4rem;
+        box-shadow: 0 4px 8px 2px rgba(19, 19, 19, 0.116);
+        border-radius: 3px;
+        visibility: hidden;
+
+        position: absolute;
+        top: 1.7rem;
+        left: 5rem;
+        overflow: hidden;
+
+        li {
+          width: 100%;
+          padding: 0.5rem;
+          cursor: pointer;
+
+          &:hover,
+          &:active {
+            background-color: $white-color;
+          }
+        }
+      }
+      .sort-search-icon {
+        position: absolute;
+        right: 2rem;
+        cursor: pointer;
+        padding: 0.4rem 0.5rem;
+        border-radius: 5rem;
+        transition: all 0.3s ease-in-out;
+        border: 2px solid transparent;
+
+        &:hover {
+          background-color: $white-color;
+        }
+        &:active {
+          border-color: #ddd;
+        }
       }
 
       @media (min-width: 700px) {
@@ -186,10 +246,10 @@
         border: 2px solid transparent;
 
         &:hover {
-          background-color: $white-color;
+          background-color: $grey-hover;
         }
         &:active {
-          border-color: #ddd;
+          border-color: $dark-hover;
         }
       }
 
@@ -215,13 +275,23 @@
       background-color: $white-color;
       width: 20rem;
       height: 2.5rem;
-      border: 1px solid #ddd;
+      border: 2px solid #ddd;
       border-radius: 5rem;
+      transition: all 0.3s ease-in-out;
 
       @media (max-width: 700px) {
         width: 18rem;
+        display: none;
+
+        &.open {
+          display: flex;
+        }
       }
 
+      &.focus {
+        border-color: $primary-color;
+        background-color: $m-white-color;
+      }
       .search-field {
         font-size: 1rem;
         font-weight: 550;
@@ -240,14 +310,109 @@
         height: 100%;
         padding: 0.5rem;
         border-radius: 5rem;
+        border: 2px solid transparent;
+        cursor: pointer;
         transition: all 0.3s ease-in-out;
 
         &:hover {
-          background-color: $effect-white-color;
+          background-color: $dark-hover;
         }
         &:active {
-          background-color: $btn-dark-hover;
-          color: $white-color;
+          background-color: $primary-color;
+          color: $m-white-color;
+          border-color: #2cdb92d0;
+        }
+      }
+    }
+  }
+
+  ////////////////////// Account styles //////////////
+  &__list {
+    margin-top: 6rem;
+    display: block;
+    width: 80%;
+    //border: 1px solid peru;
+
+    @media (max-width: 700px) {
+      width: 95%;
+      margin-top: 5rem;
+    }
+    @media (max-width: 560px) {
+      width: 100%;
+    }
+
+    &-items {
+      @include flex(space-between, row);
+      padding: 0.5rem 1rem;
+      border-bottom: 1px solid $grey-hover;
+
+      &:nth-child(odd) {
+        background-color: $white-color;
+      }
+
+      @media (max-width: 560px) {
+        padding: 0.5rem;
+      }
+      //////// the bank image //////////////
+      &-bank {
+        width: 5rem;
+        @media (max-width: 700px) {
+          width: 4.5rem;
+        }
+        img {
+          width: 100%;
+        }
+      }
+      ////// the account details name and acc number
+      &-acc {
+        @include flex(space-around, row);
+        flex: 2;
+        margin-left: 1rem;
+        color: $text-color;
+        font-size: 1rem;
+        font-weight: 600;
+
+        &-name {
+          font-size: 1.1rem;
+        }
+        &-number {
+          color: $text-hover-color;
+          font-size: 1.3rem;
+        }
+
+        @media (max-width: 560px) {
+          @include flex(center, column);
+          align-items: flex-start;
+
+          &-name {
+            font-size: 1rem;
+          }
+          &-number {
+            color: $text-hover-color;
+            font-size: 1.1rem;
+          }
+        }
+      }
+      &-delete {
+        text-align: right;
+        flex: 0.5;
+        cursor: pointer;
+        i {
+          //
+          @include effect(0.1rem, 10rem);
+          padding: 0.6rem;
+          &:hover {
+            background-color: #ddd;
+          }
+          &:active {
+            background-color: rgba(233, 40, 40, 0.514);
+            border-color: rgba(231, 44, 44, 0.63);
+            color: rgb(231, 44, 44);
+          }
+        }
+
+        @media (max-width: 560px) {
+          display: none;
         }
       }
     }

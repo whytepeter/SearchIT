@@ -59,10 +59,14 @@
               <i class="fas fa-sort-amount-down-alt"></i>
               <span>Sort by</span>
             </div>
-          <ul>
-            <li>bank</li>
-            <li>account name</li>
+            <span class="active">Bank</span>
+          <ul class="sort-select">
+            <li id="Bank" class="sort-options" >Bank</li>
+            <li id="Acount name" class="sort-options">Account name</li>
           </ul>
+          <div  class="sort-search-icon">
+            <i class="fas fa-search"></i>
+          </div>
           </div>
 
           <div class="main__filter--sort filter">
@@ -74,6 +78,7 @@
               <i class="fas fa-user"></i>
               <span class="sp-name">sort by accout name</span>
             </div>
+        
           </div>
           <div class="main__filter--search filter">
             <input
@@ -90,14 +95,42 @@
         </div>
 
         <!-- ////////////////// main account list section /////////////// -->
-        <ul class="main__list" hidden>
-          <li class="main__items-list">
-            <div class="main__items-list-bank">Access</div>
-            <div class="main__items-list-acc">
-              <div class="main__items-list-acc-name">Peter Emmanuel Whyte</div>
-              <div class="main__items-list-acc-number">0805915974</div>
+        <ul class="main__list" >
+          <li class="main__list-items">
+            <div class="main__list-items-bank">
+              <img src="./assets/access.png" alt="access bank logo">
             </div>
-              <span class="main__items-list-delete">x</span>
+            <div class="main__list-items-acc">
+              <div class="main__list-items-acc-name">Peter Emmanuel Whyte</div>
+              <div class="main__list-items-acc-number">0805915974</div>
+            </div>
+              <span class="main__list-items-delete">
+                <i class="fas fa-trash"></i>
+              </span>
+          </li>
+          <li class="main__list-items">
+            <div class="main__list-items-bank">
+              <img src="./assets/access.png" alt="access bank logo">
+            </div>
+            <div class="main__list-items-acc">
+              <div class="main__list-items-acc-name">Peter Emmanuel Whyte</div>
+              <div class="main__list-items-acc-number">0805915974</div>
+            </div>
+              <span class="main__list-items-delete">
+                <i class="fas fa-trash"></i>
+              </span>
+          </li>
+          <li class="main__list-items">
+            <div class="main__list-items-bank">
+              <img src="./assets/access.png" alt="access bank logo">
+            </div>
+            <div class="main__list-items-acc">
+              <div class="main__list-items-acc-name">Peter Emmanuel Whyte</div>
+              <div class="main__list-items-acc-number">0805915974</div>
+            </div>
+              <span class="main__list-items-delete">
+                <i class="fas fa-trash"></i>
+              </span>
           </li>
         </ul>
         <button class="main__btn add-btn">+</button>

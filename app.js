@@ -1,23 +1,3 @@
-// ////////////////Rought work//////////////////
-// let menuBtn = document.querySelector();
-// let navDrawer = document.querySelector(".navigation-drawer");
-// let overlay = document.querySelector(".overlay");
-
-// menuBtn.addEventListener("click", () => {
-//   console.log("clicked");
-//   navDrawer.classList.add("open");
-//   overlay.classList.add("on");
-
-//   navDrawer.addEventListener("animationend", () => {
-//     navDrawer.classList.add("animated", "fadeOutleft");
-//   });
-// });
-
-// overlay.addEventListener("click", () => {
-//   //overlay.classList.remove("on");
-//   navDrawer.classList.add("animated", "fadeOutleft");
-// });
-
 let AccountControler = () => {
   // Account code
 };
@@ -28,7 +8,14 @@ let UIControler = (() => {
   DOMstrings = {
     menuBtn: ".menu-btn",
     navDrawer: ".navigation-drawer",
-    overlay: ".overlay"
+    overlay: ".overlay",
+    sortActive: ".active",
+    sortSelect: ".sort-select",
+    sortOptions: ".sort-options",
+    searchBox: ".main__filter--search",
+    searchToggle: ".sort-search-icon",
+    searchField: ".search-field",
+    searchIcon: ".search-icon"
   };
 
   return {
@@ -41,6 +28,12 @@ let UIControler = (() => {
 let controler = ((Actctrl, UIctrl) => {
   let setUpEventListeners = () => {
     //Navigation drawer function
+    let sortActive,
+      sortOptions,
+      searchToggle,
+      searchBox,
+      searchField,
+      searchIcon;
     let DOM = UIctrl.getDOMstrings();
 
     document.querySelector(DOM.menuBtn).addEventListener("click", () => {
@@ -67,7 +60,58 @@ let controler = ((Actctrl, UIctrl) => {
           .classList.remove("animate", "fadeOut");
       }, 1000);
     });
+
+    //sort dropdown
+    sortActive = document.querySelector(DOM.sortActive);
+    sortSelect = document.querySelector(DOM.sortSelect);
+    sortOptions = document.querySelectorAll(DOM.sortOptions);
+
+    sortActive.addEventListener("click", () => {
+      sortSelect.style.visibility = "visible";
+    });
+
+    // selecting an option
+    Array.from(sortOptions).forEach(option => {
+      option.addEventListener("click", e => {
+        sortActive.innerHTML = e.target.id;
+        sortSelect.style.visibility = "hidden";
+      });
+    });
+
+    //display search on mobile
+    searchBox = document.querySelector(DOM.searchBox);
+    searchToggle = document.querySelector(DOM.searchToggle);
+    searchToggle.addEventListener("click", () => {
+      AddRemoveClass(searchBox, "toggle", "open");
+    });
+
+    // search focus animation
+    searchField = document.querySelector(DOM.searchField);
+    searchField.addEventListener("focus", () => {
+      AddRemoveClass(searchBox, "add", "focus");
+    });
+    searchField.addEventListener("focusout", () => {
+      AddRemoveClass(searchBox, "remove", "focus");
+    });
+
+    searchIcon = document.querySelector(DOM.searchIcon);
+    searchIcon.addEventListener("click", () => {
+      AddRemoveClass(searchBox, "add", "focus");
+    });
   };
+
+  //Function Add or remove class
+  function AddRemoveClass(element, a, className) {
+    if (a === "add") {
+      element.classList.add(className);
+    } else if (a === "remove") {
+      element.classList.remove(className);
+    } else if (a === "toggle") {
+      element.classList.toggle(className);
+    } else {
+      return false;
+    }
+  }
 
   return {
     init: () => {
