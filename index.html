@@ -96,7 +96,7 @@
 
         <!-- ////////////////// main account list section /////////////// -->
         <ul class="main__list" >
-          <li class="main__list-items">
+          <!-- <li id="account-1" class="main__list-items">
             <div class="main__list-items-bank">
               <img src="./assets/access.png" alt="access bank logo">
             </div>
@@ -104,39 +104,161 @@
               <div class="main__list-items-acc-name">Peter Emmanuel Whyte</div>
               <div class="main__list-items-acc-number">0805915974</div>
             </div>
-              <span class="main__list-items-delete">
+              <span id="delete-1" class="main__list-items-delete delete">
                 <i class="fas fa-trash"></i>
               </span>
-          </li>
-          <li class="main__list-items">
-            <div class="main__list-items-bank">
-              <img src="./assets/access.png" alt="access bank logo">
-            </div>
-            <div class="main__list-items-acc">
-              <div class="main__list-items-acc-name">Peter Emmanuel Whyte</div>
-              <div class="main__list-items-acc-number">0805915974</div>
-            </div>
-              <span class="main__list-items-delete">
-                <i class="fas fa-trash"></i>
-              </span>
-          </li>
-          <li class="main__list-items">
-            <div class="main__list-items-bank">
-              <img src="./assets/access.png" alt="access bank logo">
-            </div>
-            <div class="main__list-items-acc">
-              <div class="main__list-items-acc-name">Peter Emmanuel Whyte</div>
-              <div class="main__list-items-acc-number">0805915974</div>
-            </div>
-              <span class="main__list-items-delete">
-                <i class="fas fa-trash"></i>
-              </span>
-          </li>
+          </li> -->
+          
         </ul>
         <button class="main__btn add-btn">+</button>
       </main>
+
+     <div class="form-container">
+        <div class="form-wrapper">
+          <div class="close"><i class="fas fa-times-circle"></i></div>
+          <form action="" class="form" id="account-form">
+            <div class="bank-selection">
+              <div class="bank-image">
+                <img
+                  id="default"
+                  class="bank"
+                  src="./assets/default.png"
+                  alt="bank logo"
+                />
+              </div>
+              <div class="select-box">
+                <div id="default" class="selected">Select Bank</div>
+                <div class="option-container  shadow">
+                  <div class="option">
+                    <input type="radio" class="radio" id="access" name="bank" />
+                    <label for="access">Access Bank</label>
+                  </div>
+                  <div class="option">
+                    <input
+                      type="radio"
+                      class="radio"
+                      id="diamond"
+                      name="bank"
+                    />
+                    <label for="diamond">Diamond Bank</label>
+                  </div>
+
+                  <div class="option">
+                    <input type="radio" class="radio" id="eco" name="bank" />
+                    <label for="eco">Eco Bank</label>
+                  </div>
+                  <div class="option">
+                    <input type="radio" class="radio" id="first" name="bank" />
+                    <label for="first">First Bank</label>
+                  </div>
+                  <div class="option">
+                    <input
+                      type="radio"
+                      class="radio"
+                      id="fidelity"
+                      name="bank"
+                    />
+                    <label for="fidelity">Fidelity Bank</label>
+                  </div>
+                  <div class="option">
+                    <input type="radio" class="radio" id="fcmb" name="bank" />
+                    <label for="fcmb">FCMB Bank</label>
+                  </div>
+                  <div class="option">
+                    <input type="radio" class="radio" id="gtb" name="bank" />
+                    <label for="gtb">GT Bank</label>
+                  </div>
+                  <div class="option">
+                    <input
+                      type="radio"
+                      class="radio"
+                      id="heritage"
+                      name="bank"
+                    />
+                    <label for="heritage">Heritage Bank</label>
+                  </div>
+                  <div class="option">
+                    <input
+                      type="radio"
+                      class="radio"
+                      id="keystone"
+                      name="bank"
+                    />
+                    <label for="keystone">Keystone Bank</label>
+                  </div>
+                  <div class="option">
+                    <input
+                      type="radio"
+                      class="radio"
+                      id="polaris"
+                      name="bank"
+                    />
+                    <label for="polaris">Polaris Bank</label>
+                  </div>
+                  <div class="option">
+                    <input
+                      type="radio"
+                      class="radio"
+                      id="stanbic"
+                      name="bank"
+                    />
+                    <label for="stanbic">Stanbic Bank</label>
+                  </div>
+                  <div class="option">
+                    <input
+                      type="radio"
+                      class="radio"
+                      id="sterling"
+                      name="bank"
+                    />
+                    <label for="sterling">Sterling Bank</label>
+                  </div>
+
+                  <div class="option">
+                    <input type="radio" class="radio" id="uba" name="bank" />
+                    <label for="uba">UBA Bank</label>
+                  </div>
+                  <div class="option">
+                    <input type="radio" class="radio" id="unity" name="bank" />
+                    <label for="unity">Unity Bank</label>
+                  </div>
+                  <div class="option">
+                    <input type="radio" class="radio" id="wema" name="bank" />
+                    <label for="wema">Wema Bank</label>
+                  </div>
+                  <div class="option">
+                    <input type="radio" class="radio" id="zenith" name="bank" />
+                    <label for="zenith">Zenith Bank</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <label for="account-name">Account Name</label>
+            <input
+              type="text"
+              id="act-name"
+              name="account-name"
+              class="account-name"
+              placeholder="eg. John Doe"
+            />
+            <label for="account-name">Account Number</label>
+            <input
+              type="text"
+              id="act-number"
+              name="account-number"
+              class="account-number"
+              placeholder="eg. 0123456789"
+            />
+
+            <button type="submit" class="submit">submit</button>
+          </form>
+        </div>
+      </div>
+       
     </div>
     <div class="overlay animate fadeIn "</div>
   </body>
+  <script src="./long-press-event.min.js"></script>
   <script src="app.js"></script>
 </html>
