@@ -60,7 +60,11 @@ let UIControler = (() => {
     addBtn: ".add-btn",
     accItemsAct: ".main__list-items-acc",
     formContainer: ".form-container",
-    closeForm: ".close"
+    closeForm: ".close",
+    selectBank: ".selected",
+    selectOption: ".option-container",
+    bankList: ".option",
+    bankImage: ".bank"
   };
 
   return {
@@ -104,7 +108,11 @@ let controler = ((Actctrl, UIctrl) => {
       formContainer,
       overlay,
       navDrawer,
-      closeForm;
+      closeForm,
+      selectBank,
+      selectOption,
+      bankList,
+      bankImage;
 
     DOM = UIctrl.getDOMstrings();
 
@@ -202,7 +210,27 @@ let controler = ((Actctrl, UIctrl) => {
       AddRemoveClass(formContainer, "remove", "open");
     });
 
-    //testing out my new animtion function
+    //display bank in the form
+    selectBank = document.querySelector(DOM.selectBank);
+    selectOption = document.querySelector(DOM.selectOption);
+    bankList = Array.from(document.querySelectorAll(DOM.bankList));
+    bankImage = document.querySelector(DOM.bankImage);
+
+    selectBank.addEventListener("click", () => {
+      AddRemoveClass(selectOption, "toggle", "active");
+    });
+    bankList.forEach(bank => {
+      bank.addEventListener("click", e => {
+        selectBank.innerHTML = bank.querySelector("label").innerHTML;
+        AddRemoveClass(selectOption, "remove", "active");
+
+        //change the logo of the bank to the selected one
+        bankImage.src = `./assets/${e.target.id}.png`;
+        bankImage.id = e.target.id;
+      });
+    });
+
+    //testing out my new animtion function// This cpde will be removed
     deleteBtn.addEventListener("click", () => {
       accItems.forEach(item => {
         animated(item, "fadeOutLeft");
@@ -238,22 +266,6 @@ let controler = ((Actctrl, UIctrl) => {
   // a wait function for 1sec to remove/add/turn visibility/turn off visiblity/display none /display block
   function wait(element, a, className) {
     setTimeout(() => {
-      //   if (a === "remove") {
-      //     AddRemoveClass(element, "remove", className);
-      //   } else if (a === "add") {
-      //     AddRemoveClass(element, "add", className);
-      //   } else if (a === "vOn") {
-      //     element.style.visibility = "visible";
-      //   } else if (a === "vOff") {
-      //     element.style.visibility = "hidden";
-      //   } else if (a === "dnone") {
-      //     element.style.display = "none";
-      //   } else if (a === "dshow") {
-      //     element.style.display = "block";
-      //   } else {
-      //     return false;
-      //   }
-
       switch (a) {
         case "add":
           return AddRemoveClass(element, "add", className);
