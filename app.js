@@ -112,8 +112,8 @@ let controler = ((Actctrl, UIctrl) => {
     document.querySelector(DOM.menuBtn).addEventListener("click", () => {
       document.querySelector(DOM.navDrawer).classList.add("open");
       // adds the overlay with a fadeIn effect
-      overlay.classList.add("on");
       animated(overlay, "fadeIn", "on");
+      overlay.classList.add("on");
     });
 
     //Remove the nav drawer
@@ -174,11 +174,11 @@ let controler = ((Actctrl, UIctrl) => {
     });
 
     //show delete button
-    accItems = document.querySelector(DOM.accItems);
+    accItems = Array.from(document.querySelectorAll(DOM.accItems));
     deleteBtn = document.querySelector(DOM.deleteBtn);
-    accItemsAct = document.querySelectorAll(DOM.accItemsAct);
+    accItemsAct = Array.from(document.querySelectorAll(DOM.accItemsAct));
 
-    Array.from(accItemsAct).forEach(item => {
+    accItemsAct.forEach(item => {
       item.addEventListener("long-press", e => {
         item.classList.toggle("mleft");
         deleteBtn.classList.toggle("open");
@@ -190,16 +190,24 @@ let controler = ((Actctrl, UIctrl) => {
     closeForm = document.querySelector(DOM.closeForm);
     formContainer = document.querySelector(DOM.formContainer);
     addBtn.addEventListener("click", () => {
-      AddRemoveClass(overlay, "add", "on");
       animated(overlay, "fadeIn");
+      AddRemoveClass(overlay, "add", "on");
       AddRemoveClass(formContainer, "add", "open");
     });
 
     // close form
     closeForm.addEventListener("click", () => {
-      AddRemoveClass(overlay, "remove", "on");
       animated(overlay, "fadeOut");
+      AddRemoveClass(overlay, "remove", "on");
       AddRemoveClass(formContainer, "remove", "open");
+    });
+
+    //testing out my new animtion function
+    deleteBtn.addEventListener("click", () => {
+      accItems.forEach(item => {
+        animated(item, "fadeOutLeft");
+        wait(item, "dnone");
+      });
     });
   };
 
@@ -219,15 +227,59 @@ let controler = ((Actctrl, UIctrl) => {
   // Add and remove animation
   function animated(element, animation) {
     // add the class animate and the animation
-    AddRemoveClass(element, "add", "animate");
+    AddRemoveClass(element, "add", "animated");
     AddRemoveClass(element, "add", animation);
     // remove the class animate and the animation thereby ending it
     setTimeout(() => {
-      AddRemoveClass(element, "remove", "animate");
+      AddRemoveClass(element, "remove", "animated");
       AddRemoveClass(element, "remove", animation);
+    }, 2000);
+  }
+  // a wait function for 1sec to remove/add/turn visibility/turn off visiblity/display none /display block
+  function wait(element, a, className) {
+    setTimeout(() => {
+      //   if (a === "remove") {
+      //     AddRemoveClass(element, "remove", className);
+      //   } else if (a === "add") {
+      //     AddRemoveClass(element, "add", className);
+      //   } else if (a === "vOn") {
+      //     element.style.visibility = "visible";
+      //   } else if (a === "vOff") {
+      //     element.style.visibility = "hidden";
+      //   } else if (a === "dnone") {
+      //     element.style.display = "none";
+      //   } else if (a === "dshow") {
+      //     element.style.display = "block";
+      //   } else {
+      //     return false;
+      //   }
+
+      switch (a) {
+        case "add":
+          return AddRemoveClass(element, "add", className);
+          break;
+        case "remove":
+          return AddRemoveClass(element, "remove", className);
+          break;
+        case "vOn":
+          return (element.style.visibility = "visible");
+          break;
+        case "vOff":
+          return (element.style.visibility = "hidden");
+          break;
+        case "dshow":
+          return (element.style.display = className);
+          break;
+        case "dnone":
+          return (element.style.display = "none");
+          break;
+
+        default:
+          return false;
+          break;
+      }
     }, 1000);
   }
-
   return {
     init: () => {
       setUpEventListeners();
