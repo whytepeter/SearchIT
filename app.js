@@ -56,8 +56,11 @@ let UIControler = (() => {
     searchIcon: ".search-icon",
     mainList: ".main__list",
     accItems: ".main__list-items",
-    deleteBnt: ".main__list-items-delete",
-    accItemsAct: ".main__list-items-acc"
+    deleteBtn: ".main__list-items-delete",
+    addBtn: ".add-btn",
+    accItemsAct: ".main__list-items-acc",
+    formContainer: ".form-container",
+    closeForm: ".close"
   };
 
   return {
@@ -94,35 +97,38 @@ let controler = ((Actctrl, UIctrl) => {
       searchField,
       searchIcon,
       mainList,
-      deleteBnt,
+      deleteBtn,
       accItems,
-      accItemsAct;
+      accItemsAct,
+      addBtn,
+      formContainer,
+      overlay,
+      navDrawer,
+      closeForm;
 
     DOM = UIctrl.getDOMstrings();
 
+    //add the nav drawer
     document.querySelector(DOM.menuBtn).addEventListener("click", () => {
       document.querySelector(DOM.navDrawer).classList.add("open");
-      document
-        .querySelector(DOM.overlay)
-        .classList.add("on", "animate", "fadeIn");
-
-      setTimeout(() => {
-        document
-          .querySelector(DOM.overlay)
-          .classList.remove("animate", "fadeIn");
-      }, 500);
+      // adds the overlay with a fadeIn effect
+      overlay.classList.add("on");
+      animated(overlay, "fadeIn", "on");
     });
 
     //Remove the nav drawer
-    document.querySelector(DOM.overlay).addEventListener("click", () => {
-      document.querySelector(DOM.overlay).classList.add("animate", "fadeOut");
-      document.querySelector(DOM.navDrawer).classList.remove("open");
-      setTimeout(() => {
-        document.querySelector(DOM.overlay).classList.remove("on");
-        document
-          .querySelector(DOM.overlay)
-          .classList.remove("animate", "fadeOut");
-      }, 1000);
+    overlay = document.querySelector(DOM.overlay);
+    navDrawer = document.querySelector(DOM.navDrawer);
+
+    overlay.addEventListener("click", () => {
+      if (navDrawer.className.includes("open")) {
+        //removes the overly with a fadeout effect
+        animated(overlay, "fadeOut");
+        overlay.classList.remove("on");
+        navDrawer.classList.remove("open");
+      } else {
+        return false;
+      }
     });
 
     //sort dropdown
@@ -169,20 +175,35 @@ let controler = ((Actctrl, UIctrl) => {
 
     //show delete button
     accItems = document.querySelector(DOM.accItems);
-    deleteBnt = document.querySelector(DOM.deleteBnt);
+    deleteBtn = document.querySelector(DOM.deleteBtn);
     accItemsAct = document.querySelectorAll(DOM.accItemsAct);
 
     Array.from(accItemsAct).forEach(item => {
       item.addEventListener("long-press", e => {
         item.classList.toggle("mleft");
-        //deleteBnt.classList.toggle("open");
-        console.log();
-        e.target.parentNodee;
+        deleteBtn.classList.toggle("open");
       });
+    });
+
+    //show form by click the add buttn
+    addBtn = document.querySelector(DOM.addBtn);
+    closeForm = document.querySelector(DOM.closeForm);
+    formContainer = document.querySelector(DOM.formContainer);
+    addBtn.addEventListener("click", () => {
+      AddRemoveClass(overlay, "add", "on");
+      animated(overlay, "fadeIn");
+      AddRemoveClass(formContainer, "add", "open");
+    });
+
+    // close form
+    closeForm.addEventListener("click", () => {
+      AddRemoveClass(overlay, "remove", "on");
+      animated(overlay, "fadeOut");
+      AddRemoveClass(formContainer, "remove", "open");
     });
   };
 
-  //Function Add or remove class
+  //Function Add / remove or toggle class
   function AddRemoveClass(element, a, className) {
     if (a === "add") {
       element.classList.add(className);
@@ -193,6 +214,18 @@ let controler = ((Actctrl, UIctrl) => {
     } else {
       return false;
     }
+  }
+
+  // Add and remove animation
+  function animated(element, animation) {
+    // add the class animate and the animation
+    AddRemoveClass(element, "add", "animate");
+    AddRemoveClass(element, "add", animation);
+    // remove the class animate and the animation thereby ending it
+    setTimeout(() => {
+      AddRemoveClass(element, "remove", "animate");
+      AddRemoveClass(element, "remove", animation);
+    }, 1000);
   }
 
   return {

@@ -269,7 +269,7 @@ ul li {
   background-color: rgba(0, 0, 0, 0.329);
   width: 100vw;
   height: 100vh;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   z-index: 70;
@@ -829,6 +829,12 @@ ul li {
       -ms-flex-align: center;
           align-items: center;
   display: none;
+}
+
+.form-container.open {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
 }
 
 .form-container .form-wrapper {

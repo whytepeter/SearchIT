@@ -116,7 +116,7 @@
   background-color: $overlay-color;
   width: 100vw;
   height: 100vh;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   z-index: $index-7;
@@ -479,6 +479,9 @@
   align-items: center;
 
   display: none;
+  &.open {
+    display: flex;
+  }
 
   .form-wrapper {
     max-width: 90%;
