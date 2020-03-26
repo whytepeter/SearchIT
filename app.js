@@ -122,7 +122,7 @@ let UIControler = (() => {
     accName: ".act-name",
     accNumber: ".act-number",
     dSortBtn: ".sort",
-    mSortBtn: "m-sort"
+    mSortBtn: ".m-sort"
   };
 
   return {
@@ -382,6 +382,18 @@ let controler = ((Actctrl, UIctrl) => {
 
     //Sort All Account Account name
     mSortBtn = Array.from(document.querySelectorAll(DOM.mSortBtn));
+    mSortBtn.forEach(btn => {
+      btn.addEventListener("click", e => {
+        console.log(e.target.id);
+        // sort the accounts in the storage
+        let newSortedAccs = Actctrl.sortAcc(e.target.id);
+
+        // update the UI with the sorted acc
+        newSortedAccs.forEach(sortedAcc => {
+          UIctrl.addAccountList(sortedAcc);
+        });
+      });
+    });
   };
 
   //Validation and Add account to list
