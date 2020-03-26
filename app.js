@@ -34,8 +34,6 @@ let AccountControler = (() => {
       // push new account to data structure
       data.accounts.push(newAccount);
 
-      console.log(newAccount); // for debugging
-
       // return the new Account
       return newAccount;
     },
@@ -83,9 +81,11 @@ let UIControler = (() => {
 
     addAccountList: obj => {
       let html, newHtml, element;
+      console.log(obj);
+      console.log(obj.id);
       // create HTML string with placeholder text %id%, %bank%, %accName%, %accNumber%
       html =
-        '<li id="account-%id%" class="main__list-items"><div class="main__list-items-bank"><img src="./assets/%bank%.png" alt="%bank% bank logo"></div><div class="main__list-items-acc"><div class="main__list-items-acc-name">%accName%</div><div class="main__list-items-acc-number">%accNumber%</div></div><span id="delete-%id%" class="main__list-items-delete delete"><i class="fas fa-trash"></i></span></li>';
+        '<li id="account- %id%" class="main__list-items"><div class="main__list-items-bank"><img src="./assets/%bank%.png" alt="%bank% bank logo"></div><div class="main__list-items-acc"><div class="main__list-items-acc-name">%accName%</div><div class="main__list-items-acc-number">%accNumber%</div></div><span id="delete- %id%" class="main__list-items-delete delete"><i class="fas fa-trash"></i></span></li>';
       element = DOMstrings.mainList;
       // Replace placeholder text with actual text
       newHtml = html.replace("%id%", obj.id);
@@ -291,7 +291,7 @@ let controler = ((Actctrl, UIctrl) => {
       // validate inputs
       if (ValidateField(inputBank, inputName, inputNumber)) {
         //conver to inputNumber to Integer
-        inputNumber = parseInt(inputNumber.value);
+        inputNumber = parseInt(inputNumber.value, 10);
 
         // add account to storaage
         newAccount = Actctrl.addAccount(
@@ -303,6 +303,7 @@ let controler = ((Actctrl, UIctrl) => {
         // update the ui
         UIctrl.addAccountList(newAccount);
         console.log(newAccount);
+        console.log(newAccount.id);
 
         //clear fields
         UIctrl.clearFields();
@@ -328,7 +329,7 @@ let controler = ((Actctrl, UIctrl) => {
       return false;
     } else if (
       number.value === "" ||
-      number.value.length !== 10 ||
+      !number.value.length === 10 ||
       isNaN(number.value)
     ) {
       console.log(number.value);
