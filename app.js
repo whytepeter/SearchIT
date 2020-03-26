@@ -328,7 +328,7 @@ let controler = ((Actctrl, UIctrl) => {
       return false;
     } else if (
       number.value === "" ||
-      number.value.length === 10 ||
+      number.value.length !== 10 ||
       isNaN(number.value)
     ) {
       console.log(number.value);
