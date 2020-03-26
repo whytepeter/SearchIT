@@ -1,12 +1,12 @@
-let AccountControler = () => {
-  const Account = (id, bank, accName, accNumber) => {
+let AccountControler = (() => {
+  const Account = function(id, bank, accName, accNumber) {
     this.bank = bank;
     this.accName = accName;
     this.accNumber = accNumber;
     this.id = id;
   };
 
-  const User = (id, email, password) => {
+  const User = function(id, email, password) {
     this.id = id;
     this.email = email;
     this.password = password;
@@ -23,23 +23,29 @@ let AccountControler = () => {
 
       //create new ID
       if (data.accounts.length > 0) {
-        ID = data.accounts[data.account.length - 1].id + 1;
+        ID = data.accounts[data.accounts.length - 1].id + 1;
       } else {
         ID = 0;
       }
 
       // create new account
-      newAccount = new Account(ID, accName, accNumber);
+      newAccount = new Account(ID, bank, accName, accNumber);
 
       // push new account to data structure
       data.accounts.push(newAccount);
 
+      console.log(newAccount); // for debugging
+
       // return the new Account
       return newAccount;
+    },
+    test: () => {
+      console.log(AccountControler.addAccount);
     }
   };
-};
+})();
 
+// UI Controller
 let UIControler = (() => {
   let DOMstrings;
 
@@ -58,13 +64,16 @@ let UIControler = (() => {
     accItems: ".main__list-items",
     deleteBtn: ".main__list-items-delete",
     addBtn: ".add-btn",
+    form: ".form",
     accItemsAct: ".main__list-items-acc",
     formContainer: ".form-container",
     closeForm: ".close",
     selectBank: ".selected",
     selectOption: ".option-container",
     bankList: ".option",
-    bankImage: ".bank"
+    bankImage: ".bank",
+    accName: ".act-name",
+    accNumber: ".act-number"
   };
 
   return {
@@ -77,7 +86,7 @@ let UIControler = (() => {
       // create HTML string with placeholder text %id%, %bank%, %accName%, %accNumber%
       html =
         '<li id="account-%id%" class="main__list-items"><div class="main__list-items-bank"><img src="./assets/%bank%.png" alt="%bank% bank logo"></div><div class="main__list-items-acc"><div class="main__list-items-acc-name">%accName%</div><div class="main__list-items-acc-number">%accNumber%</div></div><span id="delete-%id%" class="main__list-items-delete delete"><i class="fas fa-trash"></i></span></li>';
-
+      element = DOMstrings.mainList;
       // Replace placeholder text with actual text
       newHtml = html.replace("%id%", obj.id);
       newHtml = newHtml.replace("%bank%", obj.bank);
@@ -86,33 +95,61 @@ let UIControler = (() => {
 
       // Insert the HTML into the DOM
       document.querySelector(element).insertAdjacentHTML("beforeend", newHtml);
-    }
+    },
+
+    getInput: () => {
+      return {
+        // why is that it giving me undefined....F**K
+        bank: document.querySelector(DOMstrings.bankImage).id,
+        actName: document.querySelector(DOMstrings.accName).value,
+        actNumber: parseInt(document.querySelector(DOMstrings.accNumber)).value
+      };
+    },
+
+    clearFields: () => {
+      // clear the bank fields
+      document.querySelector(DOMstrings.bankImage).src = "./assets/default.png";
+      document.querySelector(DOMstrings.selectBank).innerHTML = "Select Bank";
+
+      //clear name fields
+      document.querySelector(DOMstrings.accName).value = "";
+      //clear number fields
+      document.querySelector(DOMstrings.accNumber).value = "";
+    },
+    test: () => {}
   };
 })();
 
+UIControler.test();
+
 let controler = ((Actctrl, UIctrl) => {
+  let DOM,
+    sortActive,
+    sortOptions,
+    searchToggle,
+    searchBox,
+    searchField,
+    searchIcon,
+    mainList,
+    deleteBtn,
+    addBtn,
+    form,
+    accItems,
+    accItemsAct,
+    formContainer,
+    overlay,
+    navDrawer,
+    closeForm,
+    selectBank,
+    selectOption,
+    bankList,
+    bankImage,
+    inputBank,
+    inputName,
+    inputNumber;
+
   let setUpEventListeners = () => {
     //Navigation drawer function
-    let DOM,
-      sortActive,
-      sortOptions,
-      searchToggle,
-      searchBox,
-      searchField,
-      searchIcon,
-      mainList,
-      deleteBtn,
-      accItems,
-      accItemsAct,
-      addBtn,
-      formContainer,
-      overlay,
-      navDrawer,
-      closeForm,
-      selectBank,
-      selectOption,
-      bankList,
-      bankImage;
 
     DOM = UIctrl.getDOMstrings();
 
@@ -231,13 +268,77 @@ let controler = ((Actctrl, UIctrl) => {
     });
 
     //testing out my new animtion function// This cpde will be removed
-    deleteBtn.addEventListener("click", () => {
+    /** deleteBtn.addEventListener("click", () => {
       accItems.forEach(item => {
         animated(item, "fadeOutLeft");
         wait(item, "dnone");
       });
     });
+    **/
+
+    //on form submit validation
+    //get inputs
+    inputBank = document.querySelector(DOM.bankImage);
+    inputName = document.querySelector(DOM.accName);
+    inputNumber = document.querySelector(DOM.accNumber);
+
+    let input, newAccount;
+    form = document.querySelector(DOM.form);
+    input = UIctrl.getInput();
+
+    form.addEventListener("submit", e => {
+      e.preventDefault();
+
+      // validate inputs
+      if (ValidateField(inputBank, inputName, inputNumber)) {
+        //conver to inputNumber to Integer
+        inputNumber = parseInt(inputNumber.value);
+
+        // add account to storaage
+        newAccount = Actctrl.addAccount(
+          inputBank.id,
+          inputName.value,
+          inputNumber
+        );
+
+        // update the ui
+        UIctrl.addAccountList(newAccount);
+        console.log(newAccount);
+
+        //clear fields
+        UIctrl.clearFields();
+      } else {
+        return false;
+      }
+    });
   };
+
+  //Validation and Add account to list
+  function ValidateField(bank, name, number) {
+    if (bank.id === "default") {
+      console.log(bank.id);
+      alert("bank must not be empty");
+
+      return false;
+    } else if (name.value === "" || !isNaN(name.value)) {
+      console.log(name.value);
+      alert("invalid acc name");
+      return false;
+    } else if (name.value.length < 5) {
+      alert("acc name too short");
+      return false;
+    } else if (
+      number.value === "" ||
+      number.value.length === 10 ||
+      isNaN(number.value)
+    ) {
+      console.log(number.value);
+      alert("invalide acc number");
+      return false;
+    } else {
+      return true;
+    }
+  }
 
   //Function Add / remove or toggle class
   function AddRemoveClass(element, a, className) {

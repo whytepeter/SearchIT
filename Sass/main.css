@@ -828,13 +828,11 @@ ul li {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  display: none;
+  visibility: hidden;
 }
 
 .form-container.open {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
+  visibility: visible;
 }
 
 .form-container .form-wrapper {
@@ -950,6 +948,7 @@ ul li {
   background-color: #ffff;
   color: #757575;
   position: relative;
+  cursor: pointer;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
