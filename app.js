@@ -13,7 +13,26 @@ let AccountControler = (() => {
   };
 
   data = {
-    accounts: [],
+    accounts: [
+      // {
+      //   id: 0,
+      //   bank: "access",
+      //   accName: "Whyte Peter",
+      //   accNumber: "0805915972"
+      // },
+      // {
+      //   id: 1,
+      //   bank: "gtb",
+      //   accName: "Emmanuel Whyte Peter",
+      //   accNumber: "0429832896"
+      // },
+      // {
+      //   id: 2,
+      //   bank: "zenith",
+      //   accName: "Peter Emmanuel",
+      //   accNumber: "2121430638"
+      // }
+    ],
     users: []
   };
 
@@ -37,8 +56,38 @@ let AccountControler = (() => {
       // return the new Account
       return newAccount;
     },
+
+    // function sort
+
+    sortAcc: sortby => {
+      let sortAct = data.accounts;
+      sortAct.sort((a, b) => {
+        nameA = a[sortby].toLowerCase();
+        nameB = b[sortby].toLowerCase();
+        if (nameA < nameB) {
+          return -1;
+        } else if (nameA > nameB) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
+
+      return sortAct;
+    },
+
+    // function to delete account  not ready yet
+    deleteAccount: delID => {
+      let delAcc = data.accounts;
+
+      delAcc.forEach(acc => {
+        if (delID.endsWith(acc.id.toString())) {
+          delAcc.pop(acc);
+        }
+      });
+    },
     test: () => {
-      console.log(AccountControler.addAccount);
+      AccountControler.deleteAccount("delete-0");
     }
   };
 })();
@@ -71,7 +120,9 @@ let UIControler = (() => {
     bankList: ".option",
     bankImage: ".bank",
     accName: ".act-name",
-    accNumber: ".act-number"
+    accNumber: ".act-number",
+    dSortBtn: ".sort",
+    mSortBtn: "m-sort"
   };
 
   return {
@@ -85,10 +136,11 @@ let UIControler = (() => {
       console.log(obj.id);
       // create HTML string with placeholder text %id%, %bank%, %accName%, %accNumber%
       html =
-        '<li id="account- %id%" class="main__list-items"><div class="main__list-items-bank"><img src="./assets/%bank%.png" alt="%bank% bank logo"></div><div class="main__list-items-acc"><div class="main__list-items-acc-name">%accName%</div><div class="main__list-items-acc-number">%accNumber%</div></div><span id="delete- %id%" class="main__list-items-delete delete"><i class="fas fa-trash"></i></span></li>';
+        '<li id="account-%id%" class="main__list-items"><div class="main__list-items-bank"><img src="./assets/%bank%.png" alt="%bank% bank logo"></div><div class="main__list-items-acc"><div class="main__list-items-acc-name">%accName%</div><div class="main__list-items-acc-number">%accNumber%</div></div><span id="delete-%-id%" class="main__list-items-delete delete"><i class="fas fa-trash"></i></span></li>';
       element = DOMstrings.mainList;
       // Replace placeholder text with actual text
       newHtml = html.replace("%id%", obj.id);
+      newHtml = newHtml.replace("%-id%", obj.id);
       newHtml = newHtml.replace("%bank%", obj.bank);
       newHtml = newHtml.replace("%accName%", obj.accName);
       newHtml = newHtml.replace("%accNumber%", obj.accNumber);
@@ -146,7 +198,9 @@ let controler = ((Actctrl, UIctrl) => {
     bankImage,
     inputBank,
     inputName,
-    inputNumber;
+    inputNumber,
+    dSortBtn,
+    mSortBtn;
 
   let setUpEventListeners = () => {
     //Navigation drawer function
@@ -288,17 +342,14 @@ let controler = ((Actctrl, UIctrl) => {
 
     form.addEventListener("submit", e => {
       e.preventDefault();
-
+      console.log(inputNumber.value);
       // validate inputs
       if (ValidateField(inputBank, inputName, inputNumber)) {
-        //conver to inputNumber to Integer
-        inputNumber = parseInt(inputNumber.value, 10);
-
         // add account to storaage
         newAccount = Actctrl.addAccount(
           inputBank.id,
           inputName.value,
-          inputNumber
+          inputNumber.value
         );
 
         // update the ui
@@ -312,6 +363,25 @@ let controler = ((Actctrl, UIctrl) => {
         return false;
       }
     });
+
+    //Sort All Account Bank name
+    dSortBtn = Array.from(document.querySelectorAll(DOM.dSortBtn));
+
+    dSortBtn.forEach(btn => {
+      btn.addEventListener("click", e => {
+        console.log(e.target.id);
+        // sort the accounts in the storage
+        let newSortedAccs = Actctrl.sortAcc(e.target.id);
+
+        // update the UI with the sorted acc
+        newSortedAccs.forEach(sortedAcc => {
+          UIctrl.addAccountList(sortedAcc);
+        });
+      });
+    });
+
+    //Sort All Account Account name
+    mSortBtn = Array.from(document.querySelectorAll(DOM.mSortBtn));
   };
 
   //Validation and Add account to list
@@ -330,7 +400,7 @@ let controler = ((Actctrl, UIctrl) => {
       return false;
     } else if (
       number.value === "" ||
-      !number.value.length === 10 ||
+      number.value.length !== 10 ||
       isNaN(number.value)
     ) {
       console.log(number.value);
