@@ -593,6 +593,8 @@ ul li {
   margin-top: 6rem;
   display: block;
   width: 80%;
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
 }
 
 @media (max-width: 700px) {

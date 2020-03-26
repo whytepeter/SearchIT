@@ -198,6 +198,7 @@ let controler = ((Actctrl, UIctrl) => {
     searchToggle = document.querySelector(DOM.searchToggle);
     mainList = document.querySelector(DOM.mainList);
     searchToggle.addEventListener("click", () => {
+      animated(searchBox, "fadeInDown");
       AddRemoveClass(searchBox, "toggle", "open");
 
       // Adding top margin to .main_list section
