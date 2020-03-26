@@ -267,13 +267,13 @@ let controler = ((Actctrl, UIctrl) => {
       });
     });
 
-    //testing out my new animtion function// This cpde will be removed
-    deleteBtn.addEventListener("click", () => {
-      accItems.forEach(item => {
-        animated(item, "fadeOutLeft");
-        wait(item, "dnone");
-      });
-    });
+    // //testing out my new animtion function// This cpde will be removed
+    // deleteBtn.addEventListener("click", () => {
+    //   accItems.forEach(item => {
+    //     animated(item, "fadeOutLeft");
+    //     wait(item, "dnone");
+    //   });
+    // });
 
     //on form submit validation
     //get inputs
