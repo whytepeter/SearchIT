@@ -334,12 +334,26 @@
     width: 100%;
     height: 100vh;
     border: 2px solid peru;
+    background-color: $m-white-color;
 
     position: fixed;
-    visibility: hidden;
+    //visibility: hidden;
+    p {
+      text-align: center;
+      font-size: 2rem;
+      padding: 1rem;
+      color: $text-color;
 
+      @media (max-width: 560px) {
+        font-size: 1.3rem;
+      }
+    }
     &.open {
       visibility: visible;
+    }
+
+    @media (max-width: 700px) {
+      margin-top: 2rem;
     }
   }
 
@@ -388,9 +402,9 @@
       }
       ////// the account details name and acc number
       &-acc {
-        @include flex(space-around, row);
+        @include flex(space-between, row);
         flex: 2;
-        margin-left: 1rem;
+        margin: 0 3rem 0 3rem;
         color: $text-color;
         font-size: 1rem;
         font-weight: 600;
@@ -402,12 +416,18 @@
 
         &-name {
           font-size: 1.1rem;
+          text-transform: capitalize;
         }
         &-number {
           color: $text-hover-color;
           font-size: 1.3rem;
         }
+        // style for 700px and below
+        @media (max-width: 800px) {
+          margin: 0 1rem 0 1rem;
+        }
 
+        // styles for 560px and below
         @media (max-width: 560px) {
           @include flex(center, column);
           align-items: flex-start;

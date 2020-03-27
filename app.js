@@ -17,19 +17,19 @@ let AccountControler = (() => {
       {
         id: 0,
         bank: "access",
-        accName: "Whyte Peter",
+        accName: "Whyte peter",
         accNumber: "0805915972"
       },
       {
         id: 1,
         bank: "gtb",
-        accName: "Emmanuel Whyte Peter",
+        accName: "Emmanuel whyte Peter",
         accNumber: "0429832896"
       },
       {
         id: 2,
         bank: "zenith",
-        accName: "Peter Emmanuel",
+        accName: "peter Emmanuel",
         accNumber: "2121430638"
       }
     ],
@@ -62,8 +62,8 @@ let AccountControler = (() => {
     sortAcc: sortby => {
       let sortAct = data.accounts;
       sortAct.sort((a, b) => {
-        nameA = a[sortby].toLowerCase();
-        nameB = b[sortby].toLowerCase();
+        nameA = a[sortby];
+        nameB = b[sortby];
         if (nameA < nameB) {
           return -1;
         } else if (nameA > nameB) {
@@ -84,6 +84,22 @@ let AccountControler = (() => {
         if (delID.endsWith(acc.id.toString())) {
           delAcc.pop(acc);
         }
+      });
+    },
+
+    checkSearchInput: input => {
+      data.accounts.forEach(acc => {
+        acc.accName.toLowerCase();
+        // console.log(input); for debugging
+        if (acc.accName.includes(input)) {
+          //console.log(acc); // for debugging
+          return acc;
+        } else {
+          console.log("error");
+          return false;
+        }
+        console.log(acc);
+        return acc;
       });
     },
     test: () => {
@@ -132,18 +148,18 @@ let UIControler = (() => {
       return DOMstrings;
     },
 
-    removeAccount: () => {
-      let list = document.querySelector(DOMstrings.mainList);
+    removeAccount: element => {
+      let list = document.querySelector(element);
       list.innerHTML = "";
     },
 
-    addAccountList: obj => {
-      let html, newHtml, element;
+    addAccountList: (obj, element) => {
+      let html, newHtml;
 
       // create HTML string with placeholder text %id%, %bank%, %accName%, %accNumber%
       html =
         '<li id="account-%id%" class="main__list-items"><div class="main__list-items-bank"><img src="./assets/%bank%.png" alt="%bank% bank logo"></div><div class="main__list-items-acc"><div class="main__list-items-acc-name">%accName%</div><div class="main__list-items-acc-number">%accNumber%</div></div><span  class="main__list-items-delete delete"><i id="delete-%-id%" class="fas fa-trash"></i></span></li>';
-      element = DOMstrings.mainList;
+      //element = DOMstrings.mainList;
       // Replace placeholder text with actual text
       newHtml = html.replace("%id%", obj.id);
       newHtml = newHtml.replace("%-id%", obj.id);
@@ -154,7 +170,13 @@ let UIControler = (() => {
       // Insert the HTML into the DOM
       document.querySelector(element).insertAdjacentHTML("beforeend", newHtml);
     },
-
+    displayError: input => {
+      let html, newHtml, element;
+      html = "<p>Sorry account with name <b>%input%</b> does'nt exist</p>";
+      element = DOMstrings.searchResult;
+      newHtml = html.replace("%input%", input);
+      document.querySelector(element).insertAdjacentHTML("beforeend", newHtml);
+    },
     displaySearchResultBox: e => {
       console.log("hello");
 
@@ -168,6 +190,7 @@ let UIControler = (() => {
           .classList.remove("open");
       }
     },
+
     getInput: () => {
       return {
         // why is that it giving me undefined....F**K
@@ -374,7 +397,7 @@ let controler = ((Actctrl, UIctrl) => {
         );
 
         // update the ui
-        UIctrl.addAccountList(newAccount);
+        UIctrl.addAccountList(newAccount, DOM.mainList);
         console.log(newAccount);
         console.log(newAccount.id);
 
@@ -387,12 +410,31 @@ let controler = ((Actctrl, UIctrl) => {
 
     //Search function
     searchField = document.querySelector(DOM.searchField);
-    searchField.addEventListener("keyup", e => {
-      // Make the search Result box visible
-      UIctrl.displaySearchResultBox(searchField.value.length);
+    searchIcon.addEventListener("click", () => {
+      if (searchField.value !== "" && searchField.value.length !== " ") {
+        let searchAcc;
+        // Make the search Result box visible
+        UIctrl.displaySearchResultBox(searchField.value.length);
 
-      //Check if the input matches any Account
-      //Display the Account
+        //Check if the input matches any Account
+        if (Actctrl.checkSearchInput(searchField.value)) {
+          //if return true
+          searchAcc = Actctrl.checkSearchInput(searchField.value);
+          console.log(seachAcc); //for debugging
+          // removes all child element
+          UIctrl.removeAccount(DOM.searchResult);
+          // displays the matching accounts
+          UIctrl.addAccountList(searchAcc, DOM.searchResult);
+        } else {
+          // removes all child element
+          UIctrl.removeAccount(DOM.searchResult);
+          // insert the error message
+          UIctrl.displayError(searchField.value);
+          return false;
+        }
+      } else {
+        alert("search must not be empty");
+      }
     });
 
     //Sort All Account Bank name
@@ -405,7 +447,7 @@ let controler = ((Actctrl, UIctrl) => {
         let newSortedAccs = Actctrl.sortAcc(e.target.id);
 
         // remove the acc o
-        UIctrl.removeAccount();
+        UIctrl.removeAccount(DOM.mainList);
 
         // update the UI with the sorted acc
         newSortedAccs.forEach(sortedAcc => {
@@ -427,7 +469,7 @@ let controler = ((Actctrl, UIctrl) => {
 
         // update the UI with the sorted acc
         newSortedAccs.forEach(sortedAcc => {
-          UIctrl.addAccountList(sortedAcc);
+          UIctrl.addAccountList(sortedAcc, DOM.mainList);
         });
       });
     });
