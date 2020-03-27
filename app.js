@@ -14,24 +14,24 @@ let AccountControler = (() => {
 
   data = {
     accounts: [
-      // {
-      //   id: 0,
-      //   bank: "access",
-      //   accName: "Whyte Peter",
-      //   accNumber: "0805915972"
-      // },
-      // {
-      //   id: 1,
-      //   bank: "gtb",
-      //   accName: "Emmanuel Whyte Peter",
-      //   accNumber: "0429832896"
-      // },
-      // {
-      //   id: 2,
-      //   bank: "zenith",
-      //   accName: "Peter Emmanuel",
-      //   accNumber: "2121430638"
-      // }
+      {
+        id: 0,
+        bank: "access",
+        accName: "Whyte Peter",
+        accNumber: "0805915972"
+      },
+      {
+        id: 1,
+        bank: "gtb",
+        accName: "Emmanuel Whyte Peter",
+        accNumber: "0429832896"
+      },
+      {
+        id: 2,
+        bank: "zenith",
+        accName: "Peter Emmanuel",
+        accNumber: "2121430638"
+      }
     ],
     users: []
   };
@@ -107,7 +107,9 @@ let UIControler = (() => {
     searchToggle: ".sort-search-icon",
     searchField: ".search-field",
     searchIcon: ".search-icon",
-    mainList: ".main__list",
+    searchResultBox: ".main__search-result",
+    searchResult: ".search-result-list",
+    mainList: ".list",
     accItems: ".main__list-items",
     deleteBtn: ".main__list-items-delete",
     addBtn: ".add-btn",
@@ -130,13 +132,17 @@ let UIControler = (() => {
       return DOMstrings;
     },
 
+    removeAccount: () => {
+      let list = document.querySelector(DOMstrings.mainList);
+      list.innerHTML = "";
+    },
+
     addAccountList: obj => {
       let html, newHtml, element;
-      console.log(obj);
-      console.log(obj.id);
+
       // create HTML string with placeholder text %id%, %bank%, %accName%, %accNumber%
       html =
-        '<li id="account-%id%" class="main__list-items"><div class="main__list-items-bank"><img src="./assets/%bank%.png" alt="%bank% bank logo"></div><div class="main__list-items-acc"><div class="main__list-items-acc-name">%accName%</div><div class="main__list-items-acc-number">%accNumber%</div></div><span id="delete-%-id%" class="main__list-items-delete delete"><i class="fas fa-trash"></i></span></li>';
+        '<li id="account-%id%" class="main__list-items"><div class="main__list-items-bank"><img src="./assets/%bank%.png" alt="%bank% bank logo"></div><div class="main__list-items-acc"><div class="main__list-items-acc-name">%accName%</div><div class="main__list-items-acc-number">%accNumber%</div></div><span  class="main__list-items-delete delete"><i id="delete-%-id%" class="fas fa-trash"></i></span></li>';
       element = DOMstrings.mainList;
       // Replace placeholder text with actual text
       newHtml = html.replace("%id%", obj.id);
@@ -149,6 +155,19 @@ let UIControler = (() => {
       document.querySelector(element).insertAdjacentHTML("beforeend", newHtml);
     },
 
+    displaySearchResultBox: e => {
+      console.log("hello");
+
+      if (e > 0) {
+        document
+          .querySelector(DOMstrings.searchResultBox)
+          .classList.add("open");
+      } else {
+        document
+          .querySelector(DOMstrings.searchResultBox)
+          .classList.remove("open");
+      }
+    },
     getInput: () => {
       return {
         // why is that it giving me undefined....F**K
@@ -182,6 +201,8 @@ let controler = ((Actctrl, UIctrl) => {
     searchBox,
     searchField,
     searchIcon,
+    searchResultBox,
+    searchResult,
     mainList,
     deleteBtn,
     addBtn,
@@ -364,6 +385,16 @@ let controler = ((Actctrl, UIctrl) => {
       }
     });
 
+    //Search function
+    searchField = document.querySelector(DOM.searchField);
+    searchField.addEventListener("keyup", e => {
+      // Make the search Result box visible
+      UIctrl.displaySearchResultBox(searchField.value.length);
+
+      //Check if the input matches any Account
+      //Display the Account
+    });
+
     //Sort All Account Bank name
     dSortBtn = Array.from(document.querySelectorAll(DOM.dSortBtn));
 
@@ -372,6 +403,9 @@ let controler = ((Actctrl, UIctrl) => {
         console.log(e.target.id);
         // sort the accounts in the storage
         let newSortedAccs = Actctrl.sortAcc(e.target.id);
+
+        // remove the acc o
+        UIctrl.removeAccount();
 
         // update the UI with the sorted acc
         newSortedAccs.forEach(sortedAcc => {
@@ -387,6 +421,9 @@ let controler = ((Actctrl, UIctrl) => {
         console.log(e.target.id);
         // sort the accounts in the storage
         let newSortedAccs = Actctrl.sortAcc(e.target.id);
+
+        // remove the acc o
+        UIctrl.removeAccount();
 
         // update the UI with the sorted acc
         newSortedAccs.forEach(sortedAcc => {

@@ -580,13 +580,41 @@ ul li {
 }
 
 .main__filter--search .search-icon:hover {
-  background-color: #dddddd;
+  color: #2cdb91;
 }
 
 .main__filter--search .search-icon:active {
   background-color: #2cdb91;
   color: #ffff;
   border-color: #2cdb92d0;
+}
+
+.main__search-result {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  width: 100%;
+  height: 100vh;
+  border: 2px solid peru;
+  position: fixed;
+  visibility: hidden;
+}
+
+.main__search-result.open {
+  visibility: visible;
 }
 
 .main__list {
