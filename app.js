@@ -29,7 +29,7 @@ let AccountControler = (() => {
       {
         id: 2,
         bank: "zenith",
-        accName: "peter Emmanuel",
+        accName: "Peter Emmanuel",
         accNumber: "2121430638"
       }
     ],
