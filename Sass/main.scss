@@ -280,7 +280,7 @@
       transition: all 0.3s ease-in-out;
 
       @media (max-width: 700px) {
-        width: 18rem;
+        width: 90%;
         display: none;
 
         &.open {
@@ -389,14 +389,18 @@
       &:nth-child(odd) {
         background-color: $white-color;
       }
+      &:nth-child(even) {
+        background-color: $m-white-color;
+      }
 
       @media (max-width: 560px) {
         padding: 0.5rem;
 
         &.onpress {
-          width: 300px;
+          width: 100%;
           margin-left: -2rem;
-          box-shadow: 2px 4px 8px 1px rgba(19, 19, 19, 0.219);
+          box-shadow: 0 2px 8px 1px rgba(19, 19, 19, 0.205);
+          z-index: $index-4;
         }
       }
       //////// the bank image //////////////
@@ -492,7 +496,7 @@
           width: 4rem;
           height: 100%;
           top: 0;
-          right: -3.5rem;
+          right: -2rem;
 
           color: $white-color;
           cursor: none;

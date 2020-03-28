@@ -528,7 +528,7 @@ ul li {
 
 @media (max-width: 700px) {
   .main__filter--search {
-    width: 18rem;
+    width: 90%;
     display: none;
   }
   .main__filter--search.open {
@@ -690,15 +690,20 @@ ul li {
   background-color: #f3f3f3;
 }
 
+.main__list-items:nth-child(even) {
+  background-color: #ffff;
+}
+
 @media (max-width: 560px) {
   .main__list-items {
     padding: 0.5rem;
   }
   .main__list-items.onpress {
-    width: 300px;
+    width: 100%;
     margin-left: -2rem;
-    -webkit-box-shadow: 2px 4px 8px 1px rgba(19, 19, 19, 0.219);
-            box-shadow: 2px 4px 8px 1px rgba(19, 19, 19, 0.219);
+    -webkit-box-shadow: 0 2px 8px 1px rgba(19, 19, 19, 0.205);
+            box-shadow: 0 2px 8px 1px rgba(19, 19, 19, 0.205);
+    z-index: 40;
   }
 }
 
@@ -873,7 +878,7 @@ ul li {
     width: 4rem;
     height: 100%;
     top: 0;
-    right: -3.5rem;
+    right: -2rem;
     color: #f3f3f3;
     cursor: none;
     visibility: hidden;
