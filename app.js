@@ -87,21 +87,12 @@ let AccountControler = (() => {
       });
     },
 
-    checkSearchInput: input => {
-      data.accounts.forEach(acc => {
-        acc.accName.toLowerCase();
-        // console.log(input); for debugging
-        if (acc.accName.includes(input)) {
-          //console.log(acc); // for debugging
-          return acc;
-        } else {
-          console.log("error");
-          return false;
-        }
-        console.log(acc);
-        return acc;
-      });
+    returnAccData: () => {
+      a = data.accounts;
+      console.log(a);
+      return a;
     },
+
     test: () => {
       AccountControler.deleteAccount("delete-0");
     }
@@ -178,8 +169,6 @@ let UIControler = (() => {
       document.querySelector(element).insertAdjacentHTML("beforeend", newHtml);
     },
     displaySearchResultBox: e => {
-      console.log("hello");
-
       if (e > 0) {
         document
           .querySelector(DOMstrings.searchResultBox)
@@ -412,26 +401,32 @@ let controler = ((Actctrl, UIctrl) => {
     searchField = document.querySelector(DOM.searchField);
     searchIcon.addEventListener("click", () => {
       if (searchField.value !== "" && searchField.value.length !== " ") {
-        let searchAcc;
+        let searchAcc,
+          lists = [];
         // Make the search Result box visible
         UIctrl.displaySearchResultBox(searchField.value.length);
 
-        //Check if the input matches any Account
-        if (Actctrl.checkSearchInput(searchField.value)) {
-          //if return true
-          searchAcc = Actctrl.checkSearchInput(searchField.value);
-          console.log(seachAcc); //for debugging
-          // removes all child element
-          UIctrl.removeAccount(DOM.searchResult);
-          // displays the matching accounts
-          UIctrl.addAccountList(searchAcc, DOM.searchResult);
-        } else {
-          // removes all child element
-          UIctrl.removeAccount(DOM.searchResult);
-          // insert the error message
-          UIctrl.displayError(searchField.value);
-          return false;
-        }
+        //return the matched acc
+        searchAcc = Actctrl.returnAccData();
+        console.log(searchAcc);
+        searchAcc.forEach(acc => {
+          if (acc.accName.toLowerCase().includes(searchField.value)) {
+            // adds the matche result to an empty array lists
+            lists.push(acc); // line 405
+            // removes all child element
+            UIctrl.removeAccount(DOM.searchResult);
+            lists.forEach(list => {
+              // displays all matching accounts from the array lists
+              UIctrl.addAccountList(list, DOM.searchResult);
+            });
+          } else if (lists.length === 0) {
+            // removes all child element
+            UIctrl.removeAccount(DOM.searchResult);
+            // insert the error message
+            UIctrl.displayError(searchField.value);
+            return false;
+          }
+        });
       } else {
         alert("search must not be empty");
       }
