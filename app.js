@@ -297,12 +297,19 @@ let controler = ((Actctrl, UIctrl) => {
 
     //show delete button
     accItems = Array.from(document.querySelectorAll(DOM.accItems)); // the ul
-    accItemsAct = Array.from(document.querySelectorAll(DOM.accItemsAct)); // the li
+    accItemsAct = document.querySelectorAll(DOM.accItemsAct); // the li
     deleteBtn = document.querySelectorAll(".del");
-    console.log(deleteBtn);
-    deleteBtn.forEach(del => {
-      del.addEventListener("click", e => {
-        console.log(e.target.parentNode);
+    console.log(accItemsAct);
+    accItems.forEach(li => {
+      li.addEventListener("long-press", e => {
+        li.classList.toggle("onpress");
+        let child = li.childNodes;
+        if (li.classList.contains("onpress")) {
+          child[5].classList.add("open");
+        } else {
+          animated(child[5], "fadeOutRight");
+          wait(child[5], "remove", "open");
+        }
       });
     });
 
@@ -401,7 +408,9 @@ let controler = ((Actctrl, UIctrl) => {
         //return the matched acc
         searchAcc = Actctrl.returnAccData();
         searchAcc.forEach(acc => {
-          if (acc.accName.toLowerCase().includes(searchField.value)) {
+          if (
+            acc.accName.toLowerCase().includes(searchField.value.toLowerCase())
+          ) {
             // adds the matche result to an empty array lists
             lists.push(acc); // line 405
             // removes all child element

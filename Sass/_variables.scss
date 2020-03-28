@@ -19,6 +19,8 @@ $light-color: #f4fffa;
 $btn-color: #16e08c;
 $btn-click-color: #11cf80;
 
+$delte-color: rgb(231, 44, 44);
+
 $aler-success: #24e092e8;
 $aler-danger: #db564de8;
 
@@ -28,6 +30,7 @@ $index-8: 80;
 $index-7: 70;
 $index-6: 60;
 $index-5: 50;
+$index-4: 40;
 ///////////////// Mixins //////////////
 @mixin flex($center, $direction) {
   display: flex;
