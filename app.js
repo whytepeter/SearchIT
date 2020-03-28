@@ -104,6 +104,7 @@ let UIControler = (() => {
   let DOMstrings;
 
   DOMstrings = {
+    main: ".main",
     menuBtn: ".menu-btn",
     navDrawer: ".navigation-drawer",
     overlay: ".overlay",
@@ -196,6 +197,7 @@ UIControler.test();
 
 let controler = ((Actctrl, UIctrl) => {
   let DOM,
+    main,
     sortActive,
     sortOptions,
     searchToggle,
@@ -299,19 +301,23 @@ let controler = ((Actctrl, UIctrl) => {
     accItems = Array.from(document.querySelectorAll(DOM.accItems)); // the ul
     accItemsAct = document.querySelectorAll(DOM.accItemsAct); // the li
     deleteBtn = document.querySelectorAll(".del");
-    console.log(accItemsAct);
-    accItems.forEach(li => {
-      li.addEventListener("long-press", e => {
-        li.classList.toggle("onpress");
-        let child = li.childNodes;
-        if (li.classList.contains("onpress")) {
-          child[5].classList.add("open");
+
+    mainList.addEventListener("long-press", showDeleteBtn);
+    /**
+       li.classList.toggle("onpress");
+       let child = li.childNodes;
+       if (li.classList.contains("onpress")) {
+         child[5].classList.add("open");
         } else {
           animated(child[5], "fadeOutRight");
           wait(child[5], "remove", "open");
         }
       });
-    });
+      * */
+
+    // delete function
+
+    mainList.addEventListener("click", ctrlDeleteItem);
 
     //show form by click the add buttn
     addBtn = document.querySelector(DOM.addBtn);
@@ -495,6 +501,26 @@ let controler = ((Actctrl, UIctrl) => {
     } else {
       return true;
     }
+  }
+
+  //show delete btn function
+  function showDeleteBtn(e) {
+    let li = e.target.parentNode.parentNode;
+    let child = li.childNodes;
+    if (li.classList.contains("onpress")) {
+      AddRemoveClass(li, "remove", "onpress");
+      animated(child[5], "fadeOutRight");
+      wait(child[5], "remove", "open");
+    } else {
+      AddRemoveClass(li, "add", "onpress");
+      child[5].classList.add("open");
+    }
+  }
+
+  // delete button function
+  function ctrlDeleteItem(event) {
+    let c = event.target.parentNode.parentNode.parentNode.id;
+    console.log(c);
   }
 
   //Function Add / remove or toggle class
