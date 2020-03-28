@@ -337,13 +337,16 @@
     background-color: $m-white-color;
 
     position: fixed;
-    //visibility: hidden;
+    visibility: hidden;
     p {
       text-align: center;
       font-size: 2rem;
       padding: 1rem;
       color: $text-color;
 
+      @media (max-width: 700px) {
+        margin-top: 2rem;
+      }
       @media (max-width: 560px) {
         font-size: 1.3rem;
       }
@@ -351,8 +354,7 @@
     &.open {
       visibility: visible;
     }
-
-    @media (max-width: 700px) {
+    &.mtop {
       margin-top: 2rem;
     }
   }
@@ -396,8 +398,14 @@
         @media (max-width: 700px) {
           width: 4.5rem;
         }
+
         img {
           width: 100%;
+        }
+        @media (max-width: 560px) {
+          img {
+            width: 72px;
+          }
         }
       }
       ////// the account details name and acc number
@@ -431,9 +439,18 @@
         @media (max-width: 560px) {
           @include flex(center, column);
           align-items: flex-start;
+          margin-left: 0.6rem;
+          margin-right: 0;
 
           &-name {
             font-size: 1rem;
+
+            min-height: 24px;
+            width: 180px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            resize: horizontal;
           }
           &-number {
             color: $text-hover-color;
@@ -445,8 +462,9 @@
         text-align: right;
         flex: 0.5;
         cursor: pointer;
-        i {
+        .del {
           //
+          @include flex(center, row);
           @include effect(0.1rem, 10rem);
           padding: 0.6rem;
           &:hover {
@@ -456,13 +474,6 @@
             background-color: rgba(233, 40, 40, 0.514);
             border-color: rgba(231, 44, 44, 0.63);
             color: rgb(231, 44, 44);
-          }
-        }
-
-        @media (max-width: 560px) {
-          display: none;
-          &.open {
-            display: block;
           }
         }
       }
@@ -641,7 +652,7 @@
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
       }
 
-      input {
+      .addInput {
         padding: 1rem;
         border: 1px solid #ddd;
         border-radius: 3px;

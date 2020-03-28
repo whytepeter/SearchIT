@@ -89,7 +89,7 @@ let AccountControler = (() => {
 
     returnAccData: () => {
       a = data.accounts;
-      console.log(a);
+
       return a;
     },
 
@@ -118,7 +118,7 @@ let UIControler = (() => {
     searchResult: ".search-result-list",
     mainList: ".list",
     accItems: ".main__list-items",
-    deleteBtn: ".main__list-items-delete",
+    deleteBtn: ".del",
     addBtn: ".add-btn",
     form: ".form",
     accItemsAct: ".main__list-items-acc",
@@ -141,7 +141,7 @@ let UIControler = (() => {
 
     removeAccount: element => {
       let list = document.querySelector(element);
-      list.innerHTML = "";
+      list.innerHTML = " ";
     },
 
     addAccountList: (obj, element) => {
@@ -149,7 +149,7 @@ let UIControler = (() => {
 
       // create HTML string with placeholder text %id%, %bank%, %accName%, %accNumber%
       html =
-        '<li id="account-%id%" class="main__list-items"><div class="main__list-items-bank"><img src="./assets/%bank%.png" alt="%bank% bank logo"></div><div class="main__list-items-acc"><div class="main__list-items-acc-name">%accName%</div><div class="main__list-items-acc-number">%accNumber%</div></div><span  class="main__list-items-delete delete"><i id="delete-%-id%" class="fas fa-trash"></i></span></li>';
+        '<li id="account-%id%" class="main__list-items"><div class="main__list-items-bank"><img src="./assets/%bank%.png" alt="%bank% bank logo"></div><div class="main__list-items-acc"><div class="main__list-items-acc-name">%accName%</div><div class="main__list-items-acc-number">%accNumber%</div></div><span  class="main__list-items-delete delete"><div id="delete-%-id%" class="del"><i  class="fas fa-trash"></i></dev></span></li>';
       //element = DOMstrings.mainList;
       // Replace placeholder text with actual text
       newHtml = html.replace("%id%", obj.id);
@@ -167,17 +167,6 @@ let UIControler = (() => {
       element = DOMstrings.searchResult;
       newHtml = html.replace("%input%", input);
       document.querySelector(element).insertAdjacentHTML("beforeend", newHtml);
-    },
-    displaySearchResultBox: e => {
-      if (e > 0) {
-        document
-          .querySelector(DOMstrings.searchResultBox)
-          .classList.add("open");
-      } else {
-        document
-          .querySelector(DOMstrings.searchResultBox)
-          .classList.remove("open");
-      }
     },
 
     getInput: () => {
@@ -307,14 +296,13 @@ let controler = ((Actctrl, UIctrl) => {
     });
 
     //show delete button
-    accItems = Array.from(document.querySelectorAll(DOM.accItems));
-    deleteBtn = document.querySelector(DOM.deleteBtn);
-    accItemsAct = Array.from(document.querySelectorAll(DOM.accItemsAct));
-
-    accItemsAct.forEach(item => {
-      item.addEventListener("long-press", e => {
-        item.classList.toggle("mleft");
-        deleteBtn.classList.toggle("open");
+    accItems = Array.from(document.querySelectorAll(DOM.accItems)); // the ul
+    accItemsAct = Array.from(document.querySelectorAll(DOM.accItemsAct)); // the li
+    deleteBtn = document.querySelectorAll(".del");
+    console.log(deleteBtn);
+    deleteBtn.forEach(del => {
+      del.addEventListener("click", e => {
+        console.log(e.target.parentNode);
       });
     });
 
@@ -355,14 +343,6 @@ let controler = ((Actctrl, UIctrl) => {
       });
     });
 
-    // //testing out my new animtion function// This cpde will be removed
-    // deleteBtn.addEventListener("click", () => {
-    //   accItems.forEach(item => {
-    //     animated(item, "fadeOutLeft");
-    //     wait(item, "dnone");
-    //   });
-    // });
-
     //on form submit validation
     //get inputs
     inputBank = document.querySelector(DOM.bankImage);
@@ -398,17 +378,28 @@ let controler = ((Actctrl, UIctrl) => {
     });
 
     //Search function
+
+    searchResultBox = document.querySelector(DOM.searchResultBox);
     searchField = document.querySelector(DOM.searchField);
+    // Make the search Result box visible only when user start typing into the search field
+    searchField.addEventListener("keyup", e => {
+      if (e.target.value !== "") {
+        AddRemoveClass(searchResultBox, "add", "open");
+        AddRemoveClass(searchResultBox, "add", "mtop");
+      } else {
+        AddRemoveClass(searchResultBox, "remove", "open");
+        //clear the search Result
+        UIctrl.removeAccount(DOM.searchResult);
+      }
+    });
+    //check the search input and return a valid match
     searchIcon.addEventListener("click", () => {
       if (searchField.value !== "" && searchField.value.length !== " ") {
         let searchAcc,
           lists = [];
-        // Make the search Result box visible
-        UIctrl.displaySearchResultBox(searchField.value.length);
 
         //return the matched acc
         searchAcc = Actctrl.returnAccData();
-        console.log(searchAcc);
         searchAcc.forEach(acc => {
           if (acc.accName.toLowerCase().includes(searchField.value)) {
             // adds the matche result to an empty array lists
@@ -446,7 +437,7 @@ let controler = ((Actctrl, UIctrl) => {
 
         // update the UI with the sorted acc
         newSortedAccs.forEach(sortedAcc => {
-          UIctrl.addAccountList(sortedAcc);
+          UIctrl.addAccountList(sortedAcc, DOM.mainList);
         });
       });
     });
@@ -460,7 +451,7 @@ let controler = ((Actctrl, UIctrl) => {
         let newSortedAccs = Actctrl.sortAcc(e.target.id);
 
         // remove the acc o
-        UIctrl.removeAccount();
+        UIctrl.removeAccount(DOM.mainList);
 
         // update the UI with the sorted acc
         newSortedAccs.forEach(sortedAcc => {
