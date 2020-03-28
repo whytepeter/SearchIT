@@ -817,6 +817,7 @@ ul li {
   border-radius: 10rem;
   -webkit-transition: all 0.2s ease-in;
   transition: all 0.2s ease-in;
+  max-width: 2.5rem;
   padding: 0.6rem;
 }
 

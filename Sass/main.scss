@@ -333,7 +333,6 @@
     align-items: flex-start;
     width: 100%;
     height: 100vh;
-
     background-color: $m-white-color;
 
     position: fixed;
@@ -463,9 +462,9 @@
         flex: 0.5;
         cursor: pointer;
         .del {
-          //
           @include flex(center, row);
           @include effect(0.1rem, 10rem);
+          max-width: 2.5rem;
           padding: 0.6rem;
           &:hover {
             background-color: #ddd;
