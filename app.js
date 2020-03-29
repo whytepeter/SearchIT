@@ -57,11 +57,26 @@ let AccountControler = (() => {
       return newAccount;
     },
 
+    // function to delete account  not ready yet
+    deleteAccount: delID => {
+      let ids, index;
+      //gets all the ids of account
+      ids = data.accounts.map(current => {
+        return current.id;
+      });
+
+      // get the index of the id we want to delete
+      index = ids.indexOf(delID);
+
+      // removes 1 element on the index which is position in the accounts array
+      if (index !== -1) {
+        data.accounts.splice(index, 1);
+      }
+    },
     // function sort
 
     sortAcc: sortby => {
-      let sortAct = data.accounts;
-      sortAct.sort((a, b) => {
+      let sortAct = data.accounts.sort((a, b) => {
         nameA = a[sortby];
         nameB = b[sortby];
         if (nameA < nameB) {
@@ -76,17 +91,6 @@ let AccountControler = (() => {
       return sortAct;
     },
 
-    // function to delete account  not ready yet
-    deleteAccount: delID => {
-      let delAcc = data.accounts;
-
-      delAcc.forEach(acc => {
-        if (delID.endsWith(acc.id.toString())) {
-          delAcc.pop(acc);
-        }
-      });
-    },
-
     returnAccData: () => {
       a = data.accounts;
 
@@ -94,7 +98,7 @@ let AccountControler = (() => {
     },
 
     test: () => {
-      AccountControler.deleteAccount("delete-0");
+      console.log(data.accounts);
     }
   };
 })();
@@ -303,20 +307,7 @@ let controler = ((Actctrl, UIctrl) => {
     deleteBtn = document.querySelectorAll(".del");
 
     mainList.addEventListener("long-press", showDeleteBtn);
-    /**
-       li.classList.toggle("onpress");
-       let child = li.childNodes;
-       if (li.classList.contains("onpress")) {
-         child[5].classList.add("open");
-        } else {
-          animated(child[5], "fadeOutRight");
-          wait(child[5], "remove", "open");
-        }
-      });
-      * */
-
     // delete function
-
     mainList.addEventListener("click", ctrlDeleteItem);
 
     //show form by click the add buttn
@@ -461,7 +452,6 @@ let controler = ((Actctrl, UIctrl) => {
     mSortBtn = Array.from(document.querySelectorAll(DOM.mSortBtn));
     mSortBtn.forEach(btn => {
       btn.addEventListener("click", e => {
-        console.log(e.target.id);
         // sort the accounts in the storage
         let newSortedAccs = Actctrl.sortAcc(e.target.id);
 
@@ -505,12 +495,14 @@ let controler = ((Actctrl, UIctrl) => {
 
   //show delete btn function
   function showDeleteBtn(e) {
-    let accItem, child;
-    console.log(e.target.parentNode);
+    let acc, accItem, child;
+    acc = e.target.parentNode;
+    // console.log(acc);
     if (screen.width < 570) {
-      if (e.target.parentNode.classList.contains("main__list-items")) {
-        accItem = e.target.parentNode;
+      if (acc.classList.contains("main__list-items-acc")) {
+        accItem = acc.parentNode;
         child = accItem.childNodes;
+        console.log(acc);
 
         if (accItem.classList.contains("onpress")) {
           AddRemoveClass(accItem, "remove", "onpress");
@@ -523,10 +515,37 @@ let controler = ((Actctrl, UIctrl) => {
       }
     }
   }
-  // delete button function
+
+  //delete animation from UI
+  function deleteFromUI(act) {
+    if (screen.width < 560) {
+      animated(act, "bounceOut");
+      wait(act, "dnone");
+    } else {
+      animated(act, "fadeOutLeft");
+      wait(act, "dnone");
+    }
+  }
+
+  // delete button function datastructure
   function ctrlDeleteItem(event) {
-    let accID = event.target.parentNode.parentNode.parentNode.id;
-    console.log(accID);
+    let accID, splitID, ID;
+    acc = event.target.parentNode.parentNode.parentNode; //  get the li
+    accID = event.target.parentNode.parentNode.parentNode.id; // get the id
+
+    if (accID) {
+      splitID = accID.split("-");
+      ID = parseInt(splitID[1]);
+
+      // if user confirms delete
+      confirm("Are you sure");
+      if (confirm) {
+        // delete the acc from the data structure
+        Actctrl.deleteAccount(ID);
+        //delete acc from user interface
+        deleteFromUI(acc);
+      }
+    }
   }
 
   //Function Add / remove or toggle class

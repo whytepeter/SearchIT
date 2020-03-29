@@ -385,7 +385,7 @@
       border-bottom: 1px solid $grey-hover;
       transition: all 0.3s ease-in-out;
       position: relative;
-      //border: 1px solid peru;  //for debugging
+
       &:nth-child(odd) {
         background-color: $white-color;
       }
@@ -466,6 +466,7 @@
           &-number {
             color: $text-hover-color;
             font-size: 1.1rem;
+            width: 200px;
           }
         }
       }
