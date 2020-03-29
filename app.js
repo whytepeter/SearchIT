@@ -506,22 +506,26 @@ let controler = ((Actctrl, UIctrl) => {
   //show delete btn function
   function showDeleteBtn(e) {
     let accItem, child;
-    if (e.target.parentNode.parentNode.classList.contains("main__list-items")) {
-      accItem = e.target.parentNode.parentNode;
+    console.log(e.target.parentNode);
+
+    if (e.target.parentNode.classList.contains("main__list-items")) {
+      accItem = e.target.parentNode;
       child = accItem.childNodes;
+      console.log(child);
       if (accItem.classList.contains("onpress")) {
         AddRemoveClass(accItem, "remove", "onpress");
-        animated(child[5], "fadeOutRight");
-        wait(child[5], "remove", "open");
+        animated(child[2], "fadeOutRight");
+        wait(child[2], "remove", "open");
       } else {
         AddRemoveClass(accItem, "add", "onpress");
-        child[5].classList.add("open");
+        child[2].classList.add("open");
       }
     }
   }
   // delete button function
   function ctrlDeleteItem(event) {
     let accID = event.target.parentNode.parentNode.parentNode.id;
+    console.log(accID);
   }
 
   //Function Add / remove or toggle class
