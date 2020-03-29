@@ -507,18 +507,19 @@ let controler = ((Actctrl, UIctrl) => {
   function showDeleteBtn(e) {
     let accItem, child;
     console.log(e.target.parentNode);
+    if (screen.width < 570) {
+      if (e.target.parentNode.classList.contains("main__list-items")) {
+        accItem = e.target.parentNode;
+        child = accItem.childNodes;
 
-    if (e.target.parentNode.classList.contains("main__list-items")) {
-      accItem = e.target.parentNode;
-      child = accItem.childNodes;
-      console.log(child);
-      if (accItem.classList.contains("onpress")) {
-        AddRemoveClass(accItem, "remove", "onpress");
-        animated(child[2], "fadeOutRight");
-        wait(child[2], "remove", "open");
-      } else {
-        AddRemoveClass(accItem, "add", "onpress");
-        child[2].classList.add("open");
+        if (accItem.classList.contains("onpress")) {
+          AddRemoveClass(accItem, "remove", "onpress");
+          animated(child[2], "fadeOutRight");
+          wait(child[2], "remove", "open");
+        } else {
+          AddRemoveClass(accItem, "add", "onpress");
+          child[2].classList.add("open");
+        }
       }
     }
   }
