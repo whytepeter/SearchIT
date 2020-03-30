@@ -1,18 +1,3 @@
-let data = [],
-  del;
-db.collection("accounts")
-  .orderBy("bank")
-  .onSnapshot(snapshot => {
-    let changes = snapshot.docChanges();
-    changes.forEach(change => {
-      if (change.type === "added") {
-        addAccountList(change.doc, ".list");
-        data.push(change.doc.data());
-        deleteAccount(change.doc);
-      }
-    });
-  });
-
 // Login Validation and styles
 //get inputs
 let loginWrapper = document.querySelector(".wrapper-login");
@@ -28,10 +13,13 @@ loginForm.addEventListener("submit", e => {
     setTimeout(() => {
       loginWrapper.classList.add("on");
     }, 1000);
+
+    start();
   }
 });
 
 let user = [];
+let isLoggedIn = false;
 
 function validateLogin() {
   if (username.value === "") {
@@ -42,6 +30,7 @@ function validateLogin() {
     }, 1000);
     return false;
   } else if (username.value !== "admin" && username.value !== "foyafa") {
+    console.log(username.value);
     username.style.borderBottomColor = "#db564de8";
     animate(username, "shake");
     setTimeout(() => {
@@ -64,16 +53,49 @@ function validateLogin() {
   }
 }
 
-let deleteAccount = doc => {
-  // show delete button
-  let li = document.querySelector(".list");
-  li.addEventListener("long-press", showDeleteBtn);
-  // delete function
-  li.addEventListener("click", ctrlDeleteItem);
+let start = () => {
+  console.log("started");
+  let data = [],
+    del;
+  if (user[0] === "foyafa" && user[1] === "12345") {
+    console.log("FOYAFA");
+    db.collection("accounts")
+      .orderBy("bank")
+      .onSnapshot(snapshot => {
+        let changes = snapshot.docChanges();
+        changes.forEach(change => {
+          if (change.type === "added") {
+            addAccountList(change.doc, ".list");
+            data.push(change.doc.data());
+            deleteAccount(change.doc);
+          }
+        });
+      });
+  } else {
+    console.log("TEST");
+    db.collection("test")
+      .orderBy("bank")
+      .onSnapshot(snapshot => {
+        let changes = snapshot.docChanges();
+        changes.forEach(change => {
+          if (change.type === "added") {
+            addAccountList(change.doc, ".list");
+            data.push(change.doc.data());
+            deleteAccount(change.doc);
+          }
+        });
+      });
+  }
 
-  //delete animation from UI
-  function deleteFromUI(act) {
-    if (user[0] === "foyafa" && user[1] === "12345") {
+  let deleteAccount = doc => {
+    // show delete button
+    let li = document.querySelector(".list");
+    li.addEventListener("long-press", showDeleteBtn);
+    // delete function
+    li.addEventListener("click", ctrlDeleteItem);
+
+    //delete animation from UI
+    function deleteFromUI(act) {
       if (screen.width < 560) {
         animate(act, "bounceOut");
         setTimeout(() => {
@@ -86,61 +108,60 @@ let deleteAccount = doc => {
           act.style.display = "none";
         }, 1000);
       }
-    } else {
-      alert("You are not allowed to delete");
-      return false;
     }
-  }
-  // deleteAccount
+    // deleteAccount
 
-  // delete button function datastructure
-  function ctrlDeleteItem(event) {
-    let accID, splitID, ID;
-    acc = event.target.parentNode.parentNode.parentNode; //  get the li
-    accID = event.target.parentNode.parentNode.parentNode.id; // get the id
+    // delete button function datastructure
+    function ctrlDeleteItem(event) {
+      let accID, splitID, ID;
+      acc = event.target.parentNode.parentNode.parentNode; //  get the li
+      accID = event.target.parentNode.parentNode.parentNode.id; // get the id
 
-    if (accID) {
-      ID = accID;
-      // if user confirms delete
+      if (accID) {
+        ID = accID;
+        // if user confirms delete
 
-      //delete acc from user interface
-      deleteFromUI(acc);
-      if (user[0] === "foyafa" && user[1] === "12345") {
-        // delete the acc from firebase
-        db.collection("accounts")
-          .doc(ID)
-          .delete();
-      } else {
-        return false;
+        //delete acc from user interface
+        deleteFromUI(acc);
+        if (user[0] === "foyafa" && user[1] === "12345") {
+          // delete the acc from firebase
+          db.collection("accounts")
+            .doc(ID)
+            .delete();
+        } else {
+          db.collection("test")
+            .doc(ID)
+            .delete();
+        }
+      }
+    }
+  };
+
+  //show delete btn function
+  function showDeleteBtn(e) {
+    let acc, accItem, child;
+    acc = e.target.parentNode;
+    // console.log(acc);
+    if (screen.width < 570) {
+      if (acc.classList.contains("main__list-items-acc")) {
+        accItem = acc.parentNode;
+        child = accItem.childNodes;
+
+        if (accItem.classList.contains("onpress")) {
+          accItem.classList.remove("onpress");
+          accItem.classList.remove("onpress");
+          animate(child[2], "fadeOutRight");
+          setTimeout(() => {
+            child[2].classList.remove("open");
+          }, 1000);
+        } else {
+          accItem.classList.add("onpress");
+          child[2].classList.add("open");
+        }
       }
     }
   }
 };
-
-//show delete btn function
-function showDeleteBtn(e) {
-  let acc, accItem, child;
-  acc = e.target.parentNode;
-  // console.log(acc);
-  if (screen.width < 570) {
-    if (acc.classList.contains("main__list-items-acc")) {
-      accItem = acc.parentNode;
-      child = accItem.childNodes;
-
-      if (accItem.classList.contains("onpress")) {
-        accItem.classList.remove("onpress");
-        accItem.classList.remove("onpress");
-        animate(child[2], "fadeOutRight");
-        setTimeout(() => {
-          child[2].classList.remove("open");
-        }, 1000);
-      } else {
-        accItem.classList.add("onpress");
-        child[2].classList.add("open");
-      }
-    }
-  }
-}
 
 // Update the UI with data from firestore
 
