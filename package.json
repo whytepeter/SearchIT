@@ -1,0 +1,19 @@
+{
+  "name": "project-ws",
+  "version": "1.0.0",
+  "description": "Account save and search app",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/whytepeter/SearchIT.git"
+  },
+  "author": "Whyte Peter",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/whytepeter/SearchIT/issues"
+  },
+  "homepage": "https://github.com/whytepeter/SearchIT#readme"
+}

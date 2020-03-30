@@ -1,107 +1,126 @@
-let AccountControler = (() => {
-  const Account = function(id, bank, accName, accNumber) {
-    this.bank = bank;
-    this.accName = accName;
-    this.accNumber = accNumber;
-    this.id = id;
-  };
-
-  const User = function(id, email, password) {
-    this.id = id;
-    this.email = email;
-    this.password = password;
-  };
-
-  data = {
-    accounts: [
-      {
-        id: 0,
-        bank: "access",
-        accName: "Whyte peter",
-        accNumber: "0805915972"
-      },
-      {
-        id: 1,
-        bank: "gtb",
-        accName: "Emmanuel whyte Peter",
-        accNumber: "0429832896"
-      },
-      {
-        id: 2,
-        bank: "zenith",
-        accName: "Peter Emmanuel",
-        accNumber: "2121430638"
+let data = [],
+  del;
+db.collection("accounts")
+  .orderBy("bank")
+  .onSnapshot(snapshot => {
+    let changes = snapshot.docChanges();
+    changes.forEach(change => {
+      if (change.type === "added") {
+        addAccountList(change.doc, ".list");
+        data.push(change.doc.data());
+        deleteAccount(change.doc);
       }
-    ],
-    users: []
-  };
+    });
+  });
 
-  return {
-    addAccount: (bank, accName, accNumber) => {
-      let newAccount, ID;
+console.log(data);
 
-      //create new ID
-      if (data.accounts.length > 0) {
-        ID = data.accounts[data.accounts.length - 1].id + 1;
-      } else {
-        ID = 0;
-      }
+let deleteAccount = doc => {
+  // show delete button
+  let li = document.querySelector(".list");
+  li.addEventListener("long-press", showDeleteBtn);
+  // delete function
+  li.addEventListener("click", ctrlDeleteItem);
 
-      // create new account
-      newAccount = new Account(ID, bank, accName, accNumber);
+  //delete animation from UI
+  function deleteFromUI(act) {
+    if (screen.width < 560) {
+      animate(act, "bounceOut");
+      setTimeout(() => {
+        act.style.display = "none";
+      }, 1000);
+    } else {
+      animate(act, "fadeOutLeft");
 
-      // push new account to data structure
-      data.accounts.push(newAccount);
-
-      // return the new Account
-      return newAccount;
-    },
-
-    // function to delete account  not ready yet
-    deleteAccount: delID => {
-      let ids, index;
-      //gets all the ids of account
-      ids = data.accounts.map(current => {
-        return current.id;
-      });
-
-      // get the index of the id we want to delete
-      index = ids.indexOf(delID);
-
-      // removes 1 element on the index which is position in the accounts array
-      if (index !== -1) {
-        data.accounts.splice(index, 1);
-      }
-    },
-    // function sort
-
-    sortAcc: sortby => {
-      let sortAct = data.accounts.sort((a, b) => {
-        nameA = a[sortby];
-        nameB = b[sortby];
-        if (nameA < nameB) {
-          return -1;
-        } else if (nameA > nameB) {
-          return 1;
-        } else {
-          return 0;
-        }
-      });
-
-      return sortAct;
-    },
-
-    returnAccData: () => {
-      a = data.accounts;
-
-      return a;
-    },
-
-    test: () => {
-      console.log(data.accounts);
+      setTimeout(() => {
+        act.style.display = "none";
+      }, 1000);
     }
-  };
-})();
+  }
+  // deleteAccount
+
+  // delete button function datastructure
+  function ctrlDeleteItem(event) {
+    let accID, splitID, ID;
+    acc = event.target.parentNode.parentNode.parentNode; //  get the li
+    accID = event.target.parentNode.parentNode.parentNode.id; // get the id
+
+    if (accID) {
+      ID = accID;
+      // if user confirms delete
+
+      //delete acc from user interface
+      deleteFromUI(acc);
+      // delete the acc from firebase
+      db.collection("accounts")
+        .doc(ID)
+        .delete();
+    }
+  }
+};
+
+//show delete btn function
+function showDeleteBtn(e) {
+  let acc, accItem, child;
+  acc = e.target.parentNode;
+  // console.log(acc);
+  if (screen.width < 570) {
+    if (acc.classList.contains("main__list-items-acc")) {
+      accItem = acc.parentNode;
+      child = accItem.childNodes;
+
+      if (accItem.classList.contains("onpress")) {
+        accItem.classList.remove("onpress");
+        accItem.classList.remove("onpress");
+        animate(child[2], "fadeOutRight");
+        setTimeout(() => {
+          child[2].classList.remove("open");
+        }, 1000);
+      } else {
+        accItem.classList.add("onpress");
+        child[2].classList.add("open");
+      }
+    }
+  }
+}
+
+// Update the UI with data from firestore
+
+let addAccountList = (objs, element) => {
+  let ID, acc;
+  ID = objs.id;
+  acc = objs.data();
+  let html, newHtml;
+
+  // create HTML string with placeholder text %id%, %bank%, %accName%, %accNumber%
+  html =
+    '<li  id="%id%" class="main__list-items"><div class="main__list-items-bank"><img src="./assets/%bank%.png" alt="%bank% bank logo"></div><div class="main__list-items-acc"><div class="main__list-items-acc-name">%accName%</div><div class="main__list-items-acc-number">%accNumber%</div></div><span  class="main__list-items-delete delete"><div id="delete-%-id%" class="del"><i  class="fas fa-trash"></i></dev></span></li>';
+  //element = DOMstrings.mainList;
+  // Replace placeholder text with actual text
+
+  newHtml = html.replace("%id%", ID);
+  newHtml = newHtml.replace("%-id%", ID);
+  newHtml = newHtml.replace("%bank%", acc.bank);
+  newHtml = newHtml.replace("%accName%", acc.accName);
+  newHtml = newHtml.replace("%accNumber%", acc.accNumber);
+
+  // Insert the HTML into the DOM
+  document.querySelector(element).insertAdjacentHTML("beforeend", newHtml);
+};
+let addSearchAccount = (acc, element) => {
+  // create HTML string with placeholder text %id%, %bank%, %accName%, %accNumber%
+  html =
+    '<li id="account-%id%" class="main__list-items"><div class="main__list-items-bank"><img src="./assets/%bank%.png" alt="%bank% bank logo"></div><div class="main__list-items-acc"><div class="main__list-items-acc-name">%accName%</div><div class="main__list-items-acc-number">%accNumber%</div></div><span  class="main__list-items-delete delete"><div id="delete-%-id%" class="del"><i  class="fas fa-trash"></i></dev></span></li>';
+  //element = DOMstrings.mainList;
+  // Replace placeholder text with actual text
+
+  newHtml = html.replace("%bank%", acc.bank);
+  newHtml = newHtml.replace("%accName%", acc.accName);
+  newHtml = newHtml.replace("%accNumber%", acc.accNumber);
+
+  // Insert the HTML into the DOM
+  document.querySelector(element).insertAdjacentHTML("beforeend", newHtml);
+};
 
 // UI Controller
 let UIControler = (() => {
@@ -112,11 +131,7 @@ let UIControler = (() => {
     menuBtn: ".menu-btn",
     navDrawer: ".navigation-drawer",
     overlay: ".overlay",
-    sortActive: ".active",
-    sortSelect: ".sort-select",
-    sortOptions: ".sort-options",
     searchBox: ".main__filter--search",
-    searchToggle: ".sort-search-icon",
     searchField: ".search-field",
     searchIcon: ".search-icon",
     searchResultBox: ".main__search-result",
@@ -134,9 +149,7 @@ let UIControler = (() => {
     bankList: ".option",
     bankImage: ".bank",
     accName: ".act-name",
-    accNumber: ".act-number",
-    dSortBtn: ".sort",
-    mSortBtn: ".m-sort"
+    accNumber: ".act-number"
   };
 
   return {
@@ -149,23 +162,6 @@ let UIControler = (() => {
       list.innerHTML = " ";
     },
 
-    addAccountList: (obj, element) => {
-      let html, newHtml;
-
-      // create HTML string with placeholder text %id%, %bank%, %accName%, %accNumber%
-      html =
-        '<li id="account-%id%" class="main__list-items"><div class="main__list-items-bank"><img src="./assets/%bank%.png" alt="%bank% bank logo"></div><div class="main__list-items-acc"><div class="main__list-items-acc-name">%accName%</div><div class="main__list-items-acc-number">%accNumber%</div></div><span  class="main__list-items-delete delete"><div id="delete-%-id%" class="del"><i  class="fas fa-trash"></i></dev></span></li>';
-      //element = DOMstrings.mainList;
-      // Replace placeholder text with actual text
-      newHtml = html.replace("%id%", obj.id);
-      newHtml = newHtml.replace("%-id%", obj.id);
-      newHtml = newHtml.replace("%bank%", obj.bank);
-      newHtml = newHtml.replace("%accName%", obj.accName);
-      newHtml = newHtml.replace("%accNumber%", obj.accNumber);
-
-      // Insert the HTML into the DOM
-      document.querySelector(element).insertAdjacentHTML("beforeend", newHtml);
-    },
     displayError: input => {
       let html, newHtml, element;
       html = "<p>Sorry account with name <b>%input%</b> does'nt exist</p>";
@@ -199,12 +195,9 @@ let UIControler = (() => {
 
 UIControler.test();
 
-let controler = ((Actctrl, UIctrl) => {
+let controler = (UIctrl => {
   let DOM,
     main,
-    sortActive,
-    sortOptions,
-    searchToggle,
     searchBox,
     searchField,
     searchIcon,
@@ -226,9 +219,7 @@ let controler = ((Actctrl, UIctrl) => {
     bankImage,
     inputBank,
     inputName,
-    inputNumber,
-    dSortBtn,
-    mSortBtn;
+    inputNumber;
 
   let setUpEventListeners = () => {
     //Navigation drawer function
@@ -258,36 +249,8 @@ let controler = ((Actctrl, UIctrl) => {
       }
     });
 
-    //sort dropdown
-    sortActive = document.querySelector(DOM.sortActive);
-    sortSelect = document.querySelector(DOM.sortSelect);
-    sortOptions = document.querySelectorAll(DOM.sortOptions);
-
-    sortActive.addEventListener("click", () => {
-      sortSelect.style.visibility = "visible";
-    });
-
-    // selecting an option
-    Array.from(sortOptions).forEach(option => {
-      option.addEventListener("click", e => {
-        sortActive.innerHTML = e.target.id;
-        sortSelect.style.visibility = "hidden";
-      });
-    });
-
-    //display search on mobile
-    searchBox = document.querySelector(DOM.searchBox);
-    searchToggle = document.querySelector(DOM.searchToggle);
-    mainList = document.querySelector(DOM.mainList);
-    searchToggle.addEventListener("click", () => {
-      animated(searchBox, "fadeInDown");
-      AddRemoveClass(searchBox, "toggle", "open");
-
-      // Adding top margin to .main_list section
-      mainList.classList.toggle("mtop");
-    });
-
     // search focus animation
+    searchBox = document.querySelector(DOM.searchBox);
     searchField = document.querySelector(DOM.searchField);
     searchField.addEventListener("focus", () => {
       AddRemoveClass(searchBox, "add", "focus");
@@ -305,10 +268,6 @@ let controler = ((Actctrl, UIctrl) => {
     accItems = Array.from(document.querySelectorAll(DOM.accItems)); // the ul
     accItemsAct = document.querySelectorAll(DOM.accItemsAct); // the li
     deleteBtn = document.querySelectorAll(".del");
-
-    mainList.addEventListener("long-press", showDeleteBtn);
-    // delete function
-    mainList.addEventListener("click", ctrlDeleteItem);
 
     //show form by click the add buttn
     addBtn = document.querySelector(DOM.addBtn);
@@ -353,7 +312,7 @@ let controler = ((Actctrl, UIctrl) => {
     inputName = document.querySelector(DOM.accName);
     inputNumber = document.querySelector(DOM.accNumber);
 
-    let input, newAccount;
+    let input;
     form = document.querySelector(DOM.form);
     input = UIctrl.getInput();
 
@@ -363,16 +322,12 @@ let controler = ((Actctrl, UIctrl) => {
       // validate inputs
       if (ValidateField(inputBank, inputName, inputNumber)) {
         // add account to storaage
-        newAccount = Actctrl.addAccount(
-          inputBank.id,
-          inputName.value,
-          inputNumber.value
-        );
 
-        // update the ui
-        UIctrl.addAccountList(newAccount, DOM.mainList);
-        console.log(newAccount);
-        console.log(newAccount.id);
+        db.collection("accounts").add({
+          bank: inputBank.id,
+          accName: inputName.value,
+          accNumber: inputNumber.value
+        });
 
         //clear fields
         UIctrl.clearFields();
@@ -396,17 +351,31 @@ let controler = ((Actctrl, UIctrl) => {
         UIctrl.removeAccount(DOM.searchResult);
       }
     });
-    //check the search input and return a valid match
+
+    //on button click
     searchIcon.addEventListener("click", () => {
+      search();
+    });
+    // key press Enter
+    searchField.addEventListener("keypress", e => {
+      if (e.keyCode === 13) {
+        search();
+      }
+    });
+
+    //check the search input and return a valid match
+    function search() {
       if (searchField.value !== "" && searchField.value.length !== " ") {
         let searchAcc,
           lists = [];
 
         //return the matched acc
-        searchAcc = Actctrl.returnAccData();
+        searchAcc = data;
         searchAcc.forEach(acc => {
           if (
-            acc.accName.toLowerCase().includes(searchField.value.toLowerCase())
+            acc.accName
+              .toLowerCase()
+              .includes(searchField.value.toLowerCase().trim())
           ) {
             // adds the matche result to an empty array lists
             lists.push(acc); // line 405
@@ -414,7 +383,7 @@ let controler = ((Actctrl, UIctrl) => {
             UIctrl.removeAccount(DOM.searchResult);
             lists.forEach(list => {
               // displays all matching accounts from the array lists
-              UIctrl.addAccountList(list, DOM.searchResult);
+              addSearchAccount(list, DOM.searchResult);
             });
           } else if (lists.length === 0) {
             // removes all child element
@@ -427,43 +396,7 @@ let controler = ((Actctrl, UIctrl) => {
       } else {
         alert("search must not be empty");
       }
-    });
-
-    //Sort All Account Bank name
-    dSortBtn = Array.from(document.querySelectorAll(DOM.dSortBtn));
-
-    dSortBtn.forEach(btn => {
-      btn.addEventListener("click", e => {
-        console.log(e.target.id);
-        // sort the accounts in the storage
-        let newSortedAccs = Actctrl.sortAcc(e.target.id);
-
-        // remove the acc o
-        UIctrl.removeAccount(DOM.mainList);
-
-        // update the UI with the sorted acc
-        newSortedAccs.forEach(sortedAcc => {
-          UIctrl.addAccountList(sortedAcc, DOM.mainList);
-        });
-      });
-    });
-
-    //Sort All Account Account name
-    mSortBtn = Array.from(document.querySelectorAll(DOM.mSortBtn));
-    mSortBtn.forEach(btn => {
-      btn.addEventListener("click", e => {
-        // sort the accounts in the storage
-        let newSortedAccs = Actctrl.sortAcc(e.target.id);
-
-        // remove the acc o
-        UIctrl.removeAccount(DOM.mainList);
-
-        // update the UI with the sorted acc
-        newSortedAccs.forEach(sortedAcc => {
-          UIctrl.addAccountList(sortedAcc, DOM.mainList);
-        });
-      });
-    });
+    }
   };
 
   //Validation and Add account to list
@@ -490,61 +423,6 @@ let controler = ((Actctrl, UIctrl) => {
       return false;
     } else {
       return true;
-    }
-  }
-
-  //show delete btn function
-  function showDeleteBtn(e) {
-    let acc, accItem, child;
-    acc = e.target.parentNode;
-    // console.log(acc);
-    if (screen.width < 570) {
-      if (acc.classList.contains("main__list-items-acc")) {
-        accItem = acc.parentNode;
-        child = accItem.childNodes;
-        console.log(acc);
-
-        if (accItem.classList.contains("onpress")) {
-          AddRemoveClass(accItem, "remove", "onpress");
-          animated(child[2], "fadeOutRight");
-          wait(child[2], "remove", "open");
-        } else {
-          AddRemoveClass(accItem, "add", "onpress");
-          child[2].classList.add("open");
-        }
-      }
-    }
-  }
-
-  //delete animation from UI
-  function deleteFromUI(act) {
-    if (screen.width < 560) {
-      animated(act, "bounceOut");
-      wait(act, "dnone");
-    } else {
-      animated(act, "fadeOutLeft");
-      wait(act, "dnone");
-    }
-  }
-
-  // delete button function datastructure
-  function ctrlDeleteItem(event) {
-    let accID, splitID, ID;
-    acc = event.target.parentNode.parentNode.parentNode; //  get the li
-    accID = event.target.parentNode.parentNode.parentNode.id; // get the id
-
-    if (accID) {
-      splitID = accID.split("-");
-      ID = parseInt(splitID[1]);
-
-      // if user confirms delete
-      confirm("Are you sure");
-      if (confirm) {
-        // delete the acc from the data structure
-        Actctrl.deleteAccount(ID);
-        //delete acc from user interface
-        deleteFromUI(acc);
-      }
     }
   }
 
@@ -606,6 +484,17 @@ let controler = ((Actctrl, UIctrl) => {
       setUpEventListeners();
     }
   };
-})(AccountControler, UIControler);
+})(UIControler);
 
+function animate(element, animation) {
+  // add the class animate and the animation
+  element.classList.add("animated");
+  element.classList.add(animation);
+
+  // remove the class animate and the animation thereby ending it
+  setTimeout(() => {
+    element.classList.remove("animated");
+    element.classList.remove(animation);
+  }, 2000);
+}
 controler.init();

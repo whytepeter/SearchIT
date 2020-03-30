@@ -3,6 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-firestore.js"></script>
     <script
       src="https://kit.fontawesome.com/0e2c38c33e.js"
       crossorigin="anonymous"
@@ -54,32 +58,6 @@
 
         <div class="main__filter">
 
-          <div class="main__filter--m-sort">
-            <div class="m-sort">
-              <i class="fas fa-sort-amount-down-alt"></i>
-              <span>Sort by</span>
-            </div>
-            <span class="active">Bank</span>
-          <ul class="sort-select">
-            <li id="bank" class="sort-options m-sort" >Bank</li>
-            <li id="accName" class="sort-options m-sort">Account name</li>
-          </ul>
-          <div  class="sort-search-icon">
-            <i class="fas fa-search"></i>
-          </div>
-          </div>
-
-          <div class="main__filter--sort filter">
-            <div  class=" main__filter--sort-bank sort">
-                <i class="fas fa-university"></i>
-              <span id="bank" class="sp-bank">sort by bank</span>
-            </div>
-            <div  class="  main__filter--sort-name sort">
-              <i class="fas fa-user"></i>
-              <span id="accName" class="sp-name">sort by accout name</span>
-            </div>
-        
-          </div>
           <div class="main__filter--search filter">
             <input
               id="search"
@@ -284,6 +262,25 @@
     </div>
     <div class="overlay animate fadeIn "</div>
   </body>
+  <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyBJPtQUq9DOtBf6BvXqpOAt8p1e5_fsuw4",
+      authDomain: "wsearch-f710a.firebaseapp.com",
+      databaseURL: "https://wsearch-f710a.firebaseio.com",
+      projectId: "wsearch-f710a",
+      storageBucket: "wsearch-f710a.appspot.com",
+      messagingSenderId: "983772168716",
+      appId: "1:983772168716:web:b5444b4518b14fded56429",
+      measurementId: "G-0QGZK2GGBP"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+    const db = firebase.firestore()
+    
+  </script>
+  
   <script src="./long-press-event.min.js"></script>
   <script src="app.js"></script>
 </html>

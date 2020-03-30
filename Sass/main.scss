@@ -166,114 +166,10 @@
       width: 100%;
     }
 
-    &--m-sort {
-      @include flex(flex-start, row);
-      background-color: $m-white-color;
-      width: 100%;
-
-      padding: 0.3rem 0;
-      position: relative;
-      // border: 1px solid peru;
-      padding: 1rem;
-
-      .active {
-        margin-left: 0.7rem;
-        padding: 0.2rem 0.5rem;
-        font-weight: bold;
-        background-color: #ddd;
-        border-radius: 7px;
-      }
-
-      ul {
-        @include flex(flex-start, column);
-
-        align-items: flex-start;
-        background-color: $m-white-color;
-        list-style: none;
-        box-shadow: 0 4px 8px 2px rgba(19, 19, 19, 0.116);
-        border-radius: 3px;
-        visibility: hidden;
-
-        position: absolute;
-        top: 1.7rem;
-        left: 5rem;
-        overflow: hidden;
-
-        li {
-          width: 100%;
-          padding: 0.5rem;
-          cursor: pointer;
-
-          &:hover,
-          &:active {
-            background-color: $white-color;
-          }
-        }
-      }
-      .sort-search-icon {
-        position: absolute;
-        right: 2rem;
-        cursor: pointer;
-        padding: 0.4rem 0.5rem;
-        border-radius: 5rem;
-        transition: all 0.3s ease-in-out;
-        border: 2px solid transparent;
-
-        &:hover {
-          background-color: $white-color;
-        }
-        &:active {
-          border-color: #ddd;
-        }
-      }
-
-      @media (min-width: 700px) {
-        display: none;
-      }
-    }
-
-    &--sort {
-      justify-self: flex-start;
-      @include flex(center, row);
-
-      cursor: pointer;
-      transition: all 0.3s ease;
-
-      .sort {
-        border-radius: 5rem;
-        padding: 0.5rem 0.7rem;
-        transition: all 0.3s ease-in-out;
-        border: 2px solid transparent;
-
-        &:hover {
-          background-color: $grey-hover;
-        }
-        &:active {
-          border-color: $dark-hover;
-        }
-      }
-
-      &:hover,
-      &:active {
-        color: $text-hover-color;
-      }
-      span {
-        margin-left: 3px;
-      }
-
-      &-name {
-        margin-left: 1rem;
-      }
-
-      @media (max-width: 700px) {
-        display: none;
-      }
-    }
-
     &--search {
       @include flex(space-between, row);
       background-color: $white-color;
-      width: 20rem;
+      width: 80%;
       height: 2.5rem;
       border: 2px solid #ddd;
       border-radius: 5rem;
@@ -281,11 +177,6 @@
 
       @media (max-width: 700px) {
         width: 90%;
-        display: none;
-
-        &.open {
-          display: flex;
-        }
       }
 
       &.focus {
@@ -354,9 +245,6 @@
     &.open {
       visibility: visible;
     }
-    &.mtop {
-      margin-top: 2rem;
-    }
   }
 
   //////////////////// Search result styles ///////////////
@@ -368,12 +256,9 @@
 
     @media (max-width: 700px) {
       width: 95%;
-      margin-top: 5rem;
+      margin-top: 3.5rem;
 
       ///// toggling the margin top with an event
-      &.mtop {
-        margin-top: 7rem;
-      }
     }
     @media (max-width: 560px) {
       width: 100%;

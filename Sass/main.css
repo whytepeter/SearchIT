@@ -356,153 +356,6 @@ ul li {
   }
 }
 
-.main__filter--m-sort {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
-  -webkit-box-pack: start;
-      -ms-flex-pack: start;
-          justify-content: flex-start;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  background-color: #ffff;
-  width: 100%;
-  padding: 0.3rem 0;
-  position: relative;
-  padding: 1rem;
-}
-
-.main__filter--m-sort .active {
-  margin-left: 0.7rem;
-  padding: 0.2rem 0.5rem;
-  font-weight: bold;
-  background-color: #ddd;
-  border-radius: 7px;
-}
-
-.main__filter--m-sort ul {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-pack: start;
-      -ms-flex-pack: start;
-          justify-content: flex-start;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-align: start;
-      -ms-flex-align: start;
-          align-items: flex-start;
-  background-color: #ffff;
-  list-style: none;
-  -webkit-box-shadow: 0 4px 8px 2px rgba(19, 19, 19, 0.116);
-          box-shadow: 0 4px 8px 2px rgba(19, 19, 19, 0.116);
-  border-radius: 3px;
-  visibility: hidden;
-  position: absolute;
-  top: 1.7rem;
-  left: 5rem;
-  overflow: hidden;
-}
-
-.main__filter--m-sort ul li {
-  width: 100%;
-  padding: 0.5rem;
-  cursor: pointer;
-}
-
-.main__filter--m-sort ul li:hover, .main__filter--m-sort ul li:active {
-  background-color: #f3f3f3;
-}
-
-.main__filter--m-sort .sort-search-icon {
-  position: absolute;
-  right: 2rem;
-  cursor: pointer;
-  padding: 0.4rem 0.5rem;
-  border-radius: 5rem;
-  -webkit-transition: all 0.3s ease-in-out;
-  transition: all 0.3s ease-in-out;
-  border: 2px solid transparent;
-}
-
-.main__filter--m-sort .sort-search-icon:hover {
-  background-color: #f3f3f3;
-}
-
-.main__filter--m-sort .sort-search-icon:active {
-  border-color: #ddd;
-}
-
-@media (min-width: 700px) {
-  .main__filter--m-sort {
-    display: none;
-  }
-}
-
-.main__filter--sort {
-  justify-self: flex-start;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  cursor: pointer;
-  -webkit-transition: all 0.3s ease;
-  transition: all 0.3s ease;
-}
-
-.main__filter--sort .sort {
-  border-radius: 5rem;
-  padding: 0.5rem 0.7rem;
-  -webkit-transition: all 0.3s ease-in-out;
-  transition: all 0.3s ease-in-out;
-  border: 2px solid transparent;
-}
-
-.main__filter--sort .sort:hover {
-  background-color: #eeeeee;
-}
-
-.main__filter--sort .sort:active {
-  border-color: #dddddd;
-}
-
-.main__filter--sort:hover, .main__filter--sort:active {
-  color: #525252;
-}
-
-.main__filter--sort span {
-  margin-left: 3px;
-}
-
-.main__filter--sort-name {
-  margin-left: 1rem;
-}
-
-@media (max-width: 700px) {
-  .main__filter--sort {
-    display: none;
-  }
-}
-
 .main__filter--search {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -518,7 +371,7 @@ ul li {
       -ms-flex-align: center;
           align-items: center;
   background-color: #f3f3f3;
-  width: 20rem;
+  width: 80%;
   height: 2.5rem;
   border: 2px solid #ddd;
   border-radius: 5rem;
@@ -529,12 +382,6 @@ ul li {
 @media (max-width: 700px) {
   .main__filter--search {
     width: 90%;
-    display: none;
-  }
-  .main__filter--search.open {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
   }
 }
 
@@ -637,10 +484,6 @@ ul li {
   visibility: visible;
 }
 
-.main__search-result.mtop {
-  margin-top: 2rem;
-}
-
 .main__list {
   margin-top: 6rem;
   display: block;
@@ -652,10 +495,7 @@ ul li {
 @media (max-width: 700px) {
   .main__list {
     width: 95%;
-    margin-top: 5rem;
-  }
-  .main__list.mtop {
-    margin-top: 7rem;
+    margin-top: 3.5rem;
   }
 }
 
