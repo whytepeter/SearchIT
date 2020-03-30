@@ -1,10 +1,17 @@
 // Login Validation and styles
 //get inputs
+let credential = document.querySelector(".credential");
 let loginWrapper = document.querySelector(".wrapper-login");
 let username = document.querySelector(".username");
 let password = document.querySelector(".password");
 let loginBtn = document.querySelector(".login-btn");
 let loginForm = document.querySelector(".login-form");
+
+// automatic fill in the details
+credential.addEventListener("click", () => {
+  username.value = "admin";
+  password.value = "12345";
+});
 
 loginForm.addEventListener("submit", e => {
   e.preventDefault();
