@@ -13,7 +13,56 @@ db.collection("accounts")
     });
   });
 
-console.log(data);
+// Login Validation and styles
+//get inputs
+let loginWrapper = document.querySelector(".wrapper-login");
+let username = document.querySelector(".username");
+let password = document.querySelector(".password");
+let loginBtn = document.querySelector(".login-btn");
+let loginForm = document.querySelector(".login-form");
+
+loginForm.addEventListener("submit", e => {
+  e.preventDefault();
+  if (validateLogin()) {
+    animate(loginWrapper, "fadeOut");
+    setTimeout(() => {
+      loginWrapper.classList.add("on");
+    }, 1000);
+  }
+});
+
+let user = [];
+
+function validateLogin() {
+  if (username.value === "") {
+    username.style.borderBottomColor = "#db564de8";
+    animate(username, "shake");
+    setTimeout(() => {
+      username.style.borderBottomColor = "transparent";
+    }, 1000);
+    return false;
+  } else if (username.value !== "admin" && username.value !== "foyafa") {
+    username.style.borderBottomColor = "#db564de8";
+    animate(username, "shake");
+    setTimeout(() => {
+      username.style.borderBottomColor = "transparent";
+    }, 1000);
+    return false;
+  } else if (password.value === "" || password.value !== "12345") {
+    password.style.borderBottomColor = "#db564de8";
+    animate(password, "shake");
+    setTimeout(() => {
+      password.style.borderBottomColor = "transparent";
+    }, 1000);
+
+    return false;
+  } else {
+    user.push(username.value);
+    user.push(password.value);
+    console.log(user);
+    return true;
+  }
+}
 
 let deleteAccount = doc => {
   // show delete button
@@ -24,17 +73,22 @@ let deleteAccount = doc => {
 
   //delete animation from UI
   function deleteFromUI(act) {
-    if (screen.width < 560) {
-      animate(act, "bounceOut");
-      setTimeout(() => {
-        act.style.display = "none";
-      }, 1000);
-    } else {
-      animate(act, "fadeOutLeft");
+    if (user[0] === "foyafa" && user[1] === "12345") {
+      if (screen.width < 560) {
+        animate(act, "bounceOut");
+        setTimeout(() => {
+          act.style.display = "none";
+        }, 1000);
+      } else {
+        animate(act, "fadeOutLeft");
 
-      setTimeout(() => {
-        act.style.display = "none";
-      }, 1000);
+        setTimeout(() => {
+          act.style.display = "none";
+        }, 1000);
+      }
+    } else {
+      alert("You are not allowed to delete");
+      return false;
     }
   }
   // deleteAccount
@@ -51,10 +105,14 @@ let deleteAccount = doc => {
 
       //delete acc from user interface
       deleteFromUI(acc);
-      // delete the acc from firebase
-      db.collection("accounts")
-        .doc(ID)
-        .delete();
+      if (user[0] === "foyafa" && user[1] === "12345") {
+        // delete the acc from firebase
+        db.collection("accounts")
+          .doc(ID)
+          .delete();
+      } else {
+        return false;
+      }
     }
   }
 };
@@ -322,15 +380,19 @@ let controler = (UIctrl => {
       // validate inputs
       if (ValidateField(inputBank, inputName, inputNumber)) {
         // add account to storaage
+        if (user[0] === "foyafa" && user[1] === "12345") {
+          db.collection("accounts").add({
+            bank: inputBank.id,
+            accName: inputName.value,
+            accNumber: inputNumber.value
+          });
 
-        db.collection("accounts").add({
-          bank: inputBank.id,
-          accName: inputName.value,
-          accNumber: inputNumber.value
-        });
-
-        //clear fields
-        UIctrl.clearFields();
+          //clear fields
+          UIctrl.clearFields();
+        } else {
+          alert("You are not allowed to add account");
+          return false;
+        }
       } else {
         return false;
       }

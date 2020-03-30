@@ -47,17 +47,14 @@
             </ul>
           </div>
         </nav>
-       
       </header>
       <!-- ///////////////Navigation Drawer starts/////////////// -->
       <div class="navigation-drawer "></div>
       <!-- ///////////////Navigation Drawer ends/////////////// -->
       <main class="main">
-
         <!-- ////////////////// filter section /////////////// -->
 
         <div class="main__filter">
-
           <div class="main__filter--search filter">
             <input
               id="search"
@@ -66,16 +63,14 @@
               placeholder="Search by name"
               class="search-field"
             />
-          <div class="search-icon">
-            <i class="fas fa-search"></i>
-          </div>
+            <div class="search-icon">
+              <i class="fas fa-search"></i>
+            </div>
           </div>
         </div>
 
         <!-- /////////// Search Result Container /////////// -->
         <div class="main__search-result">
-         
-          
           <ul class="main__list search-result-list">
             <!-- <li id="account-1" class="main__list-items">
               <div class="main__list-items-bank">
@@ -96,7 +91,7 @@
           </ul>
         </div>
         <!-- ////////////////// main account list section /////////////// -->
-        <ul class="main__list list" >
+        <ul class="main__list list">
           <!-- <li id="account-id" class="main__list-items ">
             <div class="main__list-items-bank">
               <img src="./assets/access.png" alt="access bank logo">
@@ -111,15 +106,14 @@
             </dev>
           </span>
         </li> -->
-        
         </ul>
         <button class="main__btn add-btn">+</button>
       </main>
 
-     <div class="form-container">
+      <div class="form-container">
         <div class="form-wrapper">
           <div class="close"><i class="fas fa-times-circle"></i></div>
-          <form  class="form" id="account-form">
+          <form class="form" id="account-form">
             <div class="bank-selection">
               <div class="bank-image">
                 <img
@@ -258,9 +252,39 @@
           </form>
         </div>
       </div>
-       
     </div>
-    <div class="overlay animate fadeIn "</div>
+    <div class="overlay animate fadeIn "></div>
+    <!-- Login styles -->
+    <div class="wrapper-login">
+      <div class="login">
+        <div class="login-logo ">
+          <img src="./assets/logo.png" alt="WS Logo" class="logo-logo" />
+          <span>wsearch</span>
+        </div>
+        <form class="login-form">
+          <div class="input-box">
+            <i class="fas fa-user"></i>
+            <input
+              type="text"
+              name="username"
+              placeholder="username"
+              class="login-input username "
+            />
+          </div>
+
+          <div class="input-box">
+            <i class="fas fa-lock"></i>
+            <input
+              type="password"
+              name="username"
+              placeholder="password"
+              class="login-input password "
+            />
+          </div>
+          <button class="login-btn">login</button>
+        </form>
+      </div>
+    </div>
   </body>
   <script>
     // Your web app's Firebase configuration
@@ -277,10 +301,9 @@
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
     firebase.analytics();
-    const db = firebase.firestore()
-    
+    const db = firebase.firestore();
   </script>
-  
+
   <script src="./long-press-event.min.js"></script>
   <script src="app.js"></script>
 </html>
