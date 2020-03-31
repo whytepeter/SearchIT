@@ -1,6 +1,6 @@
 // Login Validation and styles
 //get inputs
-let credentialMain = document.querySelector(".credential-Main");
+
 let credential = document.querySelector(".credential");
 let loginWrapper = document.querySelector(".wrapper-login");
 let username = document.querySelector(".username");
@@ -18,10 +18,33 @@ credential.addEventListener("click", () => {
   }, 7000);
 });
 
-credentialMain.addEventListener("click", () => {
-  username.value = "foyafa";
-  password.value = "12345";
-});
+function doubleTap() {
+  // Get a reference to an element
+  let credentialMain = document.querySelector(".credential-Main");
+
+  // Create a manager to manager the element
+  var manager = new Hammer.Manager(credentialMain);
+
+  // Create a recognizer
+  var DoubleTap = new Hammer.Tap({
+    event: "doubletap",
+    taps: 2
+  });
+
+  // Add the recognizer to the manager
+  manager.add(DoubleTap);
+
+  // Subscribe to desired event
+  manager.on("doubletap", function(e) {
+    username.value = "foyafa";
+    password.value = "12345";
+    setTimeout(() => {
+      username.value = "";
+      password.value = "";
+    }, 7000);
+  });
+}
+doubleTap();
 
 loginForm.addEventListener("submit", e => {
   e.preventDefault();
@@ -36,7 +59,6 @@ loginForm.addEventListener("submit", e => {
 });
 
 let user = [];
-let isLoggedInF = true;
 
 let loggOutBnt = document.querySelector(".user-content-active");
 let i = document.querySelector("#loggedIn");
@@ -45,21 +67,9 @@ let textB = document.querySelector(".user-content-text");
 
 // logout button
 loggOutBnt.addEventListener("click", e => {
-  animate(loginWrapper, "fadeIn");
-  setTimeout(() => {
-    loginWrapper.classList.remove("on");
-  }, 700);
+  location.reload();
+  return false;
 });
-
-if (isLoggedInF) {
-  i.classList.add("fas", "fa-user-tie");
-  text.textContent = "Logged in as Foyafa";
-  textB.textContent = "Foyafa";
-} else {
-  i.classList.add("fas", "fa-user");
-  text.textContent = "Logged in as admin";
-  textB.textContent = "Admin";
-}
 
 function validateLogin() {
   if (username.value === "") {
@@ -88,17 +98,26 @@ function validateLogin() {
   } else {
     user.push(username.value);
     user.push(password.value);
+    if (user[0] === "foyafa") {
+      console.log(user[0]);
+      i.classList.add("fas", "fa-user-tie");
+      text.textContent = "Logged in as Foyafa";
+      textB.textContent = "Foyafa";
+    } else if (user[0] === "admin") {
+      i.classList.add("fas", "fa-user");
+      text.textContent = "Logged in as admin";
+      textB.textContent = "Admin";
+    }
     console.log(user);
     return true;
   }
 }
 
 let start = () => {
-  console.log("started");
+  console.log("application has started");
   let data = [],
     del;
   if (user[0] === "foyafa" && user[1] === "12345") {
-    isLoggedInF = true;
     console.log("FOYAFA");
     db.collection("accounts")
       .orderBy("bank")
@@ -113,7 +132,6 @@ let start = () => {
         });
       });
   } else {
-    isLoggedInF = false;
     console.log("TEST");
     db.collection("test")
       .orderBy("bank")
@@ -452,9 +470,15 @@ let controler = (UIctrl => {
 
           //clear fields
           UIctrl.clearFields();
-        } else {
-          alert("You are not allowed to add account");
-          return false;
+        } else if (user[0] === "admin" && user[1] === "12345") {
+          db.collection("test").add({
+            bank: inputBank.id,
+            accName: inputName.value,
+            accNumber: inputNumber.value
+          });
+
+          //clear fields
+          UIctrl.clearFields();
         }
       } else {
         return false;

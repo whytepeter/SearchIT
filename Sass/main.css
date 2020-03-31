@@ -1310,8 +1310,8 @@ ul li {
 }
 
 .wrapper-login .login .credential-Main {
-  cursor: default;
-  margin-top: 10rem;
+  margin-top: 8rem;
+  border-bottom: 1px solid #424040;
   color: #2cdb91;
 }
 /*# sourceMappingURL=main.css.map */
