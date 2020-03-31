@@ -113,10 +113,11 @@ function validateLogin() {
   }
 }
 
+let data = [],
+  del;
 let start = () => {
   console.log("application has started");
-  let data = [],
-    del;
+
   if (user[0] === "foyafa" && user[1] === "12345") {
     console.log("FOYAFA");
     db.collection("accounts")
