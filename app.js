@@ -1,5 +1,6 @@
 // Login Validation and styles
 //get inputs
+let credentialMain = document.querySelector(".credential-Main");
 let credential = document.querySelector(".credential");
 let loginWrapper = document.querySelector(".wrapper-login");
 let username = document.querySelector(".username");
@@ -14,7 +15,12 @@ credential.addEventListener("click", () => {
   setTimeout(() => {
     username.value = "";
     password.value = "";
-  }, 5000);
+  }, 7000);
+});
+
+credentialMain.addEventListener("click", () => {
+  username.value = "foyafa";
+  password.value = "12345";
 });
 
 loginForm.addEventListener("submit", e => {

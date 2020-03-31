@@ -1308,4 +1308,10 @@ ul li {
     font-size: 0.9rem;
   }
 }
+
+.wrapper-login .login .credential-Main {
+  cursor: default;
+  margin-top: 10rem;
+  color: #2cdb91;
+}
 /*# sourceMappingURL=main.css.map */
