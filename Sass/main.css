@@ -1295,7 +1295,7 @@ ul li {
 }
 
 .wrapper-login .login .credential:hover {
-  background-color: #ddd;
+  background-color: #f3f3f3;
 }
 
 .wrapper-login .login .credential:active {
@@ -1313,5 +1313,54 @@ ul li {
   margin-top: 2rem;
   border-bottom: 1px solid #424040;
   color: #2cdb91;
+}
+
+.alert-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  width: 100%;
+  height: 100vh;
+  z-index: 90;
+  position: absolute;
+  top: 4rem;
+  left: 0;
+  pointer-events: none;
+}
+
+.alert {
+  width: 25rem;
+  color: #f3f3f3;
+  background-color: #db564de8;
+  border-radius: 10rem;
+  font-size: 1rem;
+  text-align: center;
+  padding: 0.7rem 0.5rem;
+  -webkit-animation-delay: 0.7s;
+          animation-delay: 0.7s;
+  visibility: hidden;
+}
+
+.alert.on {
+  visibility: visible;
+}
+
+@media (max-width: 600px) {
+  .alert {
+    width: 80%;
+  }
 }
 /*# sourceMappingURL=main.css.map */

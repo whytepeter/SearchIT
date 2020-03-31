@@ -163,11 +163,12 @@ let start = () => {
         }, 1000);
       } else {
         animate(act, "fadeOutLeft");
-
         setTimeout(() => {
           act.style.display = "none";
         }, 1000);
       }
+
+      displayAlert("success", "delete successful");
     }
     // deleteAccount
 
@@ -223,6 +224,31 @@ let start = () => {
   }
 };
 
+//alert Function
+let displayAlert = (mode, text) => {
+  // get the element
+  let alert = document.querySelector(".alert");
+  // check if its success or danger
+  if (mode === "success") {
+    alert.style.backgroundColor = "#24e092e8";
+  } else if (mode === "danger") {
+    alert.style.backgroundColor = "#db564de8";
+  }
+  // set the alert message
+  alert.textContent = text;
+  // give a fadeIn animation and visibility of visible
+  alert.classList.add("on");
+  animate(alert, "fadeInDown", 3000);
+
+  setTimeout(() => {
+    animate(alert, "fadeOut");
+    alert.classList.remove("on");
+  }, 3500);
+};
+
+// document.documentElement.addEventListener("click", () => {
+//   displayAlert("success", "hello");
+// });
 // Update the UI with data from firestore
 
 let addAccountList = (objs, element) => {
@@ -543,7 +569,7 @@ let controler = (UIctrl => {
           }
         });
       } else {
-        alert("search must not be empty");
+        displayAlert("danger", "Search must not be empty");
       }
     }
   };
@@ -552,15 +578,14 @@ let controler = (UIctrl => {
   function ValidateField(bank, name, number) {
     if (bank.id === "default") {
       console.log(bank.id);
-      alert("bank must not be empty");
-
+      displayAlert("danger", "bank must not be empty");
       return false;
     } else if (name.value === "" || !isNaN(name.value)) {
       console.log(name.value);
-      alert("invalid acc name");
+      displayAlert("danger", "invalid acc name");
       return false;
     } else if (name.value.length < 5) {
-      alert("acc name too short");
+      displayAlert("danger", "acc name too short");
       return false;
     } else if (
       number.value === "" ||
@@ -568,9 +593,14 @@ let controler = (UIctrl => {
       isNaN(number.value)
     ) {
       console.log(number.value);
-      alert("invalide acc number");
+      displayAlert("danger", "invalide acc number");
       return false;
     } else {
+      displayAlert("success", "Account added successfully");
+      //close the form
+      animated(overlay, "fadeOut");
+      AddRemoveClass(overlay, "remove", "on");
+      AddRemoveClass(formContainer, "remove", "open");
       return true;
     }
   }
@@ -635,7 +665,7 @@ let controler = (UIctrl => {
   };
 })(UIControler);
 
-function animate(element, animation) {
+function animate(element, animation, time = 2000) {
   // add the class animate and the animation
   element.classList.add("animated");
   element.classList.add(animation);
@@ -644,6 +674,6 @@ function animate(element, animation) {
   setTimeout(() => {
     element.classList.remove("animated");
     element.classList.remove(animation);
-  }, 2000);
+  }, time);
 }
 controler.init();
