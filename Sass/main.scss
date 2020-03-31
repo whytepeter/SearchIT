@@ -75,7 +75,7 @@
   }
 
   span {
-    &.sp-notification {
+    &.sp-loggedIn {
       @media (max-width: 700px) {
         display: none;
       }
@@ -85,9 +85,12 @@
 
 ////////////// Styles for Navigation Drawer///////////////////
 .navigation-drawer {
+  @include flex(flex-start, column);
   font-size: 1rem;
   width: 18rem;
   height: 100vh;
+  padding: 1rem;
+  color: $text-color;
   //display: none;
 
   // border: 1px solid peru; //for debugging
@@ -97,7 +100,7 @@
   position: fixed;
   top: -1px;
   left: -50rem;
-  //left: -1rem;
+  //left: -1px; // remember to remove when done
   z-index: $index-9;
   transition: all 0.3s ease-in-out;
 
@@ -110,6 +113,53 @@
 
   &.open {
     left: -1px;
+  }
+
+  .user {
+    @include flex(space-around, row);
+    width: 100%;
+    border-bottom: 1.5px solid #ddd;
+
+    &-avatar {
+      @include flex(center, row);
+      width: 5rem;
+      height: 4rem;
+      padding: 1rem;
+      border-radius: 10rem;
+      background-color: $primary-color;
+      color: $m-white-color;
+      margin-right: 0.7rem;
+    }
+
+    &-content {
+      @include flex(center, column);
+      align-items: flex-start;
+      width: 100%;
+      padding: 1rem;
+
+      &-text {
+        font-size: 1.2rem;
+        margin-bottom: 0.3rem;
+      }
+
+      &-active {
+        font-size: 0.9rem;
+        padding: 0.5rem;
+        background-color: #c7fce6;
+        color: $link-color;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+
+        cursor: pointer;
+
+        &:hover {
+          background-color: #bbf8df;
+        }
+        &:active {
+          transform: translateY(1px);
+        }
+      }
+    }
   }
 }
 

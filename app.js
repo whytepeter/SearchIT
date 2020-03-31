@@ -11,6 +11,10 @@ let loginForm = document.querySelector(".login-form");
 credential.addEventListener("click", () => {
   username.value = "admin";
   password.value = "12345";
+  setTimeout(() => {
+    username.value = "";
+    password.value = "";
+  }, 5000);
 });
 
 loginForm.addEventListener("submit", e => {
@@ -26,7 +30,30 @@ loginForm.addEventListener("submit", e => {
 });
 
 let user = [];
-let isLoggedIn = false;
+let isLoggedInF = true;
+
+let loggOutBnt = document.querySelector(".user-content-active");
+let i = document.querySelector("#loggedIn");
+let text = document.querySelector(".sp-loggedIn");
+let textB = document.querySelector(".user-content-text");
+
+// logout button
+loggOutBnt.addEventListener("click", e => {
+  animate(loginWrapper, "fadeIn");
+  setTimeout(() => {
+    loginWrapper.classList.remove("on");
+  }, 700);
+});
+
+if (isLoggedInF) {
+  i.classList.add("fas", "fa-user");
+  text.textContent = "Logged in as admin";
+  textB.textContent = "Admin";
+} else {
+  i.classList.add("fas", "fa-user-tie");
+  text.textContent = "Logged in as Foyafa";
+  textB.textContent = "Foyafa";
+}
 
 function validateLogin() {
   if (username.value === "") {
@@ -65,6 +92,7 @@ let start = () => {
   let data = [],
     del;
   if (user[0] === "foyafa" && user[1] === "12345") {
+    isLoggedInF = true;
     console.log("FOYAFA");
     db.collection("accounts")
       .orderBy("bank")
@@ -79,6 +107,7 @@ let start = () => {
         });
       });
   } else {
+    isLoggedInF = false;
     console.log("TEST");
     db.collection("test")
       .orderBy("bank")

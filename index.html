@@ -40,8 +40,8 @@
             <ul class="nav__list">
               <li class="nav__list--items">
                 <a href="#" class="nav__list--items-link link">
-                  <i class="fas fa-bell"></i>
-                  <span class="sp-notification">Admin</span>
+                  <i id="loggedIn" class="fas fa-user"></i>
+                  <span class="sp-loggedIn">Logged in as admin</span>
                 </a>
               </li>
             </ul>
@@ -49,7 +49,20 @@
         </nav>
       </header>
       <!-- ///////////////Navigation Drawer starts/////////////// -->
-      <div class="navigation-drawer "></div>
+      <div class="navigation-drawer ">
+        <div class="user">
+          <div class="user-avatar">
+            <i id="loggedIn" class="fas fa-user"></i>
+          </div>
+          <div class="user-content">
+            <span class="user-content-text">Admin</span>
+            <span class="user-content-active">
+              <i class="fas fa-sign-out-alt"></i>
+              Logged Out
+            </span>
+          </div>
+        </div>
+      </div>
       <!-- ///////////////Navigation Drawer ends/////////////// -->
       <main class="main">
         <!-- ////////////////// filter section /////////////// -->
