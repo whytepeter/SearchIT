@@ -46,13 +46,13 @@ loggOutBnt.addEventListener("click", e => {
 });
 
 if (isLoggedInF) {
-  i.classList.add("fas", "fa-user");
-  text.textContent = "Logged in as admin";
-  textB.textContent = "Admin";
-} else {
   i.classList.add("fas", "fa-user-tie");
   text.textContent = "Logged in as Foyafa";
   textB.textContent = "Foyafa";
+} else {
+  i.classList.add("fas", "fa-user");
+  text.textContent = "Logged in as admin";
+  textB.textContent = "Admin";
 }
 
 function validateLogin() {
