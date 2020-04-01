@@ -660,6 +660,7 @@ ul li {
 
 .main__list-items-bank img {
   width: 100%;
+  border-radius: 3px;
 }
 
 @media (max-width: 560px) {
