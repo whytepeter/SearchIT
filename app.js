@@ -79,7 +79,11 @@ function validateLogin() {
       username.style.borderBottomColor = "transparent";
     }, 1000);
     return false;
-  } else if (username.value !== "admin" && username.value !== "foyafa") {
+  } else if (
+    username.value !== "admin" &&
+    username.value !== "foyafa" &&
+    username.value !== "goerge"
+  ) {
     console.log(username.value);
     username.style.borderBottomColor = "#db564de8";
     animate(username, "shake");
@@ -99,7 +103,6 @@ function validateLogin() {
     user.push(username.value);
     user.push(password.value);
     if (user[0] === "foyafa") {
-      console.log(user[0]);
       i.classList.add("fas", "fa-user-tie");
       text.textContent = "Logged in as Foyafa";
       textB.textContent = "Foyafa";
@@ -107,6 +110,10 @@ function validateLogin() {
       i.classList.add("fas", "fa-user");
       text.textContent = "Logged in as admin";
       textB.textContent = "Admin";
+    } else if (user[0] === "goerge") {
+      i.classList.add("fas", "fa-user-tie");
+      text.textContent = "Logged in as Goerge Awolowo";
+      textB.textContent = "Goerge Awolowo";
     }
     console.log(user);
     return true;
@@ -132,9 +139,22 @@ let start = () => {
           }
         });
       });
-  } else {
+  } else if (user[0] === "admin" && user[1] === "12345") {
     console.log("TEST");
     db.collection("test")
+      .orderBy("bank")
+      .onSnapshot(snapshot => {
+        let changes = snapshot.docChanges();
+        changes.forEach(change => {
+          if (change.type === "added") {
+            addAccountList(change.doc, ".list");
+            data.push(change.doc.data());
+            deleteAccount(change.doc);
+          }
+        });
+      });
+  } else if (user[0] === "goerge" && user[1] === "12345") {
+    db.collection("account")
       .orderBy("bank")
       .onSnapshot(snapshot => {
         let changes = snapshot.docChanges();
@@ -190,8 +210,12 @@ let start = () => {
           db.collection("accounts")
             .doc(ID)
             .delete();
-        } else {
+        } else if (user[0] === "admin" && user[1] === "12345") {
           db.collection("test")
+            .doc(ID)
+            .delete();
+        } else if (user[0] === "goerge" && user[1] === "12345") {
+          db.collection("account")
             .doc(ID)
             .delete();
         }
@@ -499,6 +523,15 @@ let controler = (UIctrl => {
           UIctrl.clearFields();
         } else if (user[0] === "admin" && user[1] === "12345") {
           db.collection("test").add({
+            bank: inputBank.id,
+            accName: inputName.value,
+            accNumber: inputNumber.value
+          });
+
+          //clear fields
+          UIctrl.clearFields();
+        } else if (user[0] === "goerge" && user[1] === "12345") {
+          db.collection("account").add({
             bank: inputBank.id,
             accName: inputName.value,
             accNumber: inputNumber.value
