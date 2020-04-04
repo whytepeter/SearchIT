@@ -28,14 +28,14 @@ function doubleTap() {
   // Create a recognizer
   var DoubleTap = new Hammer.Tap({
     event: "doubletap",
-    taps: 2
+    taps: 2,
   });
 
   // Add the recognizer to the manager
   manager.add(DoubleTap);
 
   // Subscribe to desired event
-  manager.on("doubletap", function(e) {
+  manager.on("doubletap", function (e) {
     username.value = "foyafa";
     password.value = "12345";
     setTimeout(() => {
@@ -46,7 +46,7 @@ function doubleTap() {
 }
 doubleTap();
 
-loginForm.addEventListener("submit", e => {
+loginForm.addEventListener("submit", (e) => {
   e.preventDefault();
   if (validateLogin()) {
     animate(loginWrapper, "fadeOut");
@@ -66,7 +66,7 @@ let text = document.querySelector(".sp-loggedIn");
 let textB = document.querySelector(".user-content-text");
 
 // logout button
-loggOutBnt.addEventListener("click", e => {
+loggOutBnt.addEventListener("click", (e) => {
   location.reload();
   return false;
 });
@@ -82,7 +82,7 @@ function validateLogin() {
   } else if (
     username.value !== "admin" &&
     username.value !== "foyafa" &&
-    username.value !== "goerge"
+    username.value !== "george"
   ) {
     console.log(username.value);
     username.style.borderBottomColor = "#db564de8";
@@ -110,7 +110,7 @@ function validateLogin() {
       i.classList.add("fas", "fa-user");
       text.textContent = "Logged in as admin";
       textB.textContent = "Admin";
-    } else if (user[0] === "goerge") {
+    } else if (user[0] === "george") {
       i.classList.add("fas", "fa-user-tie");
       text.textContent = "Logged in as Goerge Awolowo";
       textB.textContent = "Goerge Awolowo";
@@ -129,9 +129,9 @@ let start = () => {
     console.log("FOYAFA");
     db.collection("accounts")
       .orderBy("bank")
-      .onSnapshot(snapshot => {
+      .onSnapshot((snapshot) => {
         let changes = snapshot.docChanges();
-        changes.forEach(change => {
+        changes.forEach((change) => {
           if (change.type === "added") {
             addAccountList(change.doc, ".list");
             data.push(change.doc.data());
@@ -143,9 +143,9 @@ let start = () => {
     console.log("TEST");
     db.collection("test")
       .orderBy("bank")
-      .onSnapshot(snapshot => {
+      .onSnapshot((snapshot) => {
         let changes = snapshot.docChanges();
-        changes.forEach(change => {
+        changes.forEach((change) => {
           if (change.type === "added") {
             addAccountList(change.doc, ".list");
             data.push(change.doc.data());
@@ -153,12 +153,13 @@ let start = () => {
           }
         });
       });
-  } else if (user[0] === "goerge" && user[1] === "12345") {
+  } else if (user[0] === "george" && user[1] === "12345") {
+    console.log("TEST");
     db.collection("account")
       .orderBy("bank")
-      .onSnapshot(snapshot => {
+      .onSnapshot((snapshot) => {
         let changes = snapshot.docChanges();
-        changes.forEach(change => {
+        changes.forEach((change) => {
           if (change.type === "added") {
             addAccountList(change.doc, ".list");
             data.push(change.doc.data());
@@ -168,7 +169,7 @@ let start = () => {
       });
   }
 
-  let deleteAccount = doc => {
+  let deleteAccount = (doc) => {
     // show delete button
     let li = document.querySelector(".list");
     li.addEventListener("long-press", showDeleteBtn);
@@ -207,17 +208,11 @@ let start = () => {
         deleteFromUI(acc);
         if (user[0] === "foyafa" && user[1] === "12345") {
           // delete the acc from firebase
-          db.collection("accounts")
-            .doc(ID)
-            .delete();
+          db.collection("accounts").doc(ID).delete();
         } else if (user[0] === "admin" && user[1] === "12345") {
-          db.collection("test")
-            .doc(ID)
-            .delete();
-        } else if (user[0] === "goerge" && user[1] === "12345") {
-          db.collection("account")
-            .doc(ID)
-            .delete();
+          db.collection("test").doc(ID).delete();
+        } else if (user[0] === "george" && user[1] === "12345") {
+          db.collection("account").doc(ID).delete();
         }
       }
     }
@@ -339,7 +334,7 @@ let UIControler = (() => {
     bankList: ".option",
     bankImage: ".bank",
     accName: ".act-name",
-    accNumber: ".act-number"
+    accNumber: ".act-number",
   };
 
   return {
@@ -347,12 +342,12 @@ let UIControler = (() => {
       return DOMstrings;
     },
 
-    removeAccount: element => {
+    removeAccount: (element) => {
       let list = document.querySelector(element);
       list.innerHTML = " ";
     },
 
-    displayError: input => {
+    displayError: (input) => {
       let html, newHtml, element;
       html = "<p>Sorry account with name <b>%input%</b> does'nt exist</p>";
       element = DOMstrings.searchResult;
@@ -365,7 +360,7 @@ let UIControler = (() => {
         // why is that it giving me undefined....F**K
         bank: document.querySelector(DOMstrings.bankImage).id,
         actName: document.querySelector(DOMstrings.accName).value,
-        actNumber: parseInt(document.querySelector(DOMstrings.accNumber)).value
+        actNumber: parseInt(document.querySelector(DOMstrings.accNumber)).value,
       };
     },
 
@@ -379,13 +374,13 @@ let UIControler = (() => {
       //clear number fields
       document.querySelector(DOMstrings.accNumber).value = "";
     },
-    test: () => {}
+    test: () => {},
   };
 })();
 
 UIControler.test();
 
-let controler = (UIctrl => {
+let controler = ((UIctrl) => {
   let DOM,
     main,
     searchBox,
@@ -485,8 +480,8 @@ let controler = (UIctrl => {
     selectBank.addEventListener("click", () => {
       AddRemoveClass(selectOption, "toggle", "active");
     });
-    bankList.forEach(bank => {
-      bank.addEventListener("click", e => {
+    bankList.forEach((bank) => {
+      bank.addEventListener("click", (e) => {
         selectBank.innerHTML = bank.querySelector("label").innerHTML;
         AddRemoveClass(selectOption, "remove", "active");
 
@@ -506,7 +501,7 @@ let controler = (UIctrl => {
     form = document.querySelector(DOM.form);
     input = UIctrl.getInput();
 
-    form.addEventListener("submit", e => {
+    form.addEventListener("submit", (e) => {
       e.preventDefault();
       console.log(inputNumber.value);
       // validate inputs
@@ -516,7 +511,7 @@ let controler = (UIctrl => {
           db.collection("accounts").add({
             bank: inputBank.id,
             accName: inputName.value,
-            accNumber: inputNumber.value
+            accNumber: inputNumber.value,
           });
 
           //clear fields
@@ -525,16 +520,16 @@ let controler = (UIctrl => {
           db.collection("test").add({
             bank: inputBank.id,
             accName: inputName.value,
-            accNumber: inputNumber.value
+            accNumber: inputNumber.value,
           });
 
           //clear fields
           UIctrl.clearFields();
-        } else if (user[0] === "goerge" && user[1] === "12345") {
+        } else if (user[0] === "george" && user[1] === "12345") {
           db.collection("account").add({
             bank: inputBank.id,
             accName: inputName.value,
-            accNumber: inputNumber.value
+            accNumber: inputNumber.value,
           });
 
           //clear fields
@@ -550,7 +545,7 @@ let controler = (UIctrl => {
     searchResultBox = document.querySelector(DOM.searchResultBox);
     searchField = document.querySelector(DOM.searchField);
     // Make the search Result box visible only when user start typing into the search field
-    searchField.addEventListener("keyup", e => {
+    searchField.addEventListener("keyup", (e) => {
       if (e.target.value !== "") {
         AddRemoveClass(searchResultBox, "add", "open");
         AddRemoveClass(searchResultBox, "add", "mtop");
@@ -566,7 +561,7 @@ let controler = (UIctrl => {
       search();
     });
     // key press Enter
-    searchField.addEventListener("keypress", e => {
+    searchField.addEventListener("keypress", (e) => {
       if (e.keyCode === 13) {
         search();
       }
@@ -580,7 +575,7 @@ let controler = (UIctrl => {
 
         //return the matched acc
         searchAcc = data;
-        searchAcc.forEach(acc => {
+        searchAcc.forEach((acc) => {
           if (
             acc.accName
               .toLowerCase()
@@ -590,7 +585,7 @@ let controler = (UIctrl => {
             lists.push(acc); // line 405
             // removes all child element
             UIctrl.removeAccount(DOM.searchResult);
-            lists.forEach(list => {
+            lists.forEach((list) => {
               // displays all matching accounts from the array lists
               addSearchAccount(list, DOM.searchResult);
             });
@@ -695,7 +690,7 @@ let controler = (UIctrl => {
   return {
     init: () => {
       setUpEventListeners();
-    }
+    },
   };
 })(UIControler);
 
