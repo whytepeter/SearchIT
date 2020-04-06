@@ -673,7 +673,7 @@
 .wrapper-login {
   @include flex(center, row);
   align-items: flex-start;
-  padding-top: 2rem;
+  padding-top: 4rem;
   width: 100%;
   height: 100vh;
   z-index: $index-9;
