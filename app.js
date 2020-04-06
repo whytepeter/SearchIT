@@ -1,3 +1,22 @@
+//offline data
+db.enablePersistence().catch((err) => {
+  if (err.code == "failed-precondition") {
+    // probably multiple tab open at once
+    console.log("persistence failed");
+  } else if (err.code == "unimplemented") {
+    //lack of browser support
+    console.log("persistence is not available");
+  }
+});
+
+// installing the service worker
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker
+    .register("/sw.js")
+    .then((reg) => console.log("searvice worker registered", reg))
+    .catch((err) => console.log("service worker not registered", err));
+}
+
 // Login Validation and styles
 //get inputs
 

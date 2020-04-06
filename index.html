@@ -21,12 +21,17 @@
     />
     <link rel="shortcut icon" href="./assets/f-logo.png" type="image/x-icon" />
     <link rel="stylesheet" href="./Sass/main.css" />
+    <link rel="manifest" href="/manifest.json" />
+    <!--IOS Support-->
+    <link rel="apple-touch-icon" href="/assets/icons/icon-96x96.png" />
+    <meta name="apple-mobile-web-app-status-bar" content="#80FFC9" />
+    <meta name="theme-color" content="#2cdb91" />
     <title>wsearch</title>
   </head>
   <body>
     <div class="container">
       <header class="header">
-        <nav class="header__nav ">
+        <nav class="header__nav">
           <div class="header__nav-left">
             <div class="header__menu-btn menu-btn">
               <i class="fas fa-bars"></i>
@@ -49,7 +54,7 @@
         </nav>
       </header>
       <!-- ///////////////Navigation Drawer starts/////////////// -->
-      <div class="navigation-drawer ">
+      <div class="navigation-drawer">
         <div class="user">
           <div class="user-avatar">
             <i id="loggedIn" class="fas fa-user"></i>
@@ -138,7 +143,7 @@
               </div>
               <div class="select-box">
                 <div id="default" class="selected">Select Bank</div>
-                <div class="option-container  shadow">
+                <div class="option-container shadow">
                   <div class="option">
                     <input type="radio" class="radio" id="access" name="bank" />
                     <label for="access">Access Bank</label>
@@ -253,7 +258,7 @@
               type="text"
               id="act-name"
               name="account-name "
-              class="act-name  addInput"
+              class="act-name addInput"
               placeholder="eg. John Doe"
             />
             <label for="account-name">Account Number</label>
@@ -261,7 +266,7 @@
               type="text"
               id="act-number"
               name="account-number"
-              class="act-number  addInput"
+              class="act-number addInput"
               placeholder="eg. 0123456789"
             />
 
@@ -270,12 +275,12 @@
         </div>
       </div>
     </div>
-    <div class="overlay animate fadeIn "></div>
+    <div class="overlay animate fadeIn"></div>
 
     <!-- Login styles -->
     <div class="wrapper-login">
       <div class="login">
-        <div class="login-logo ">
+        <div class="login-logo">
           <img src="./assets/logo.png" alt="WS Logo" class="logo-logo" />
           <span>wsearch</span>
         </div>
@@ -287,7 +292,7 @@
               type="text"
               name="username"
               placeholder="username"
-              class="login-input username "
+              class="login-input username"
             />
           </div>
 
@@ -297,7 +302,7 @@
               type="password"
               name="username"
               placeholder="password"
-              class="login-input password "
+              class="login-input password"
             />
           </div>
           <button class="login-btn">login</button>
@@ -332,7 +337,7 @@
       storageBucket: "wsearch-f710a.appspot.com",
       messagingSenderId: "983772168716",
       appId: "1:983772168716:web:b5444b4518b14fded56429",
-      measurementId: "G-0QGZK2GGBP"
+      measurementId: "G-0QGZK2GGBP",
     };
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);

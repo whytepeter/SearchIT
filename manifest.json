@@ -1,0 +1,36 @@
+{
+  "name": "Wsearch",
+  "short_name": "wsearch",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#80FFC9",
+  "theme_color": "#2cdb91",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/assets/icons/logo-1.png",
+      "type": "image/png",
+      "sizes": "72x72"
+    },
+    {
+      "src": "/assets/icons/logo-2.png",
+      "type": "image/png",
+      "sizes": "96x96"
+    },
+    {
+      "src": "/assets/icons/logo-3.png",
+      "type": "image/png",
+      "sizes": "150x150"
+    },
+    {
+      "src": "/assets/icons/logo-4.png",
+      "type": "image/png",
+      "sizes": "217x217"
+    },
+    {
+      "src": "/assets/icons/logo-5.png",
+      "type": "image/png",
+      "sizes": "518x518"
+    }
+  ]
+}
